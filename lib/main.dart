@@ -1,5 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 void main() {
@@ -12,7 +13,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Day 3',
+      title: '',
       debugShowCheckedModeBanner: false,
       home: const Home(),
     );
@@ -27,11 +28,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  //
-  //
   bool show = true;
-
   var date = DateFormat('yMMMMdd').format(DateTime.now());
+
   final _localimage = List.generate(
     10,
     (index) =>
@@ -51,140 +50,110 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 231, 229, 223),
       appBar: AppBar(
-        title: Text('DAy3'),
+        title: const Text('Scrollable Screen'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            vertical1(),
-            const Text(
-              "Horizontal Scroll",
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            //local image with horizontal direction scroll
-            horizontal(),
-            const SizedBox(
-              height: 8,
-            ),
-            const Text(
-              'Vertical Scroll',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-            ),
-
-            //vertical
-            vertical()
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              const Text(
+                "Horizontal Scroll",
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              horizontal(),
+              const SizedBox(
+                height: 8,
+              ),
+              const Text(
+                'Vertical Scroll',
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+              vertical(),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget vertical1() {
-    return Text('Hellolsdnfjsadfs');
-  }
-
   Widget vertical() {
-    var displaylist = show ? _netwokimage.take(5) : _netwokimage;
-    /*created a duplicate list,[displaylist] which contains all the data of _networkimages
-    here, i used a method .take(int) which takes first five elements from the original LIst.
-    then, proceed through the conditions*/
-    return Flexible(
-      flex: 3,
-      child: ListView.builder(
-        itemCount: displaylist.length + 1,
-        /*as all the elements of the original List was shifted to displaylist, and the conditions are also applied 
-        to this List variable.
-        displaylist.length was used,
-        here, it was done to preserved original List and 
-        the +1 was kept for the show more/show less button*/
-        itemBuilder: (context, index) {
-          if (index == displaylist.length) {
-            /*here when the index and the length of the displaylist are equal,
-            I.E either it can be 5 or 10,
-            tis if condition executes*/
-            return Center(
-              child: TextButton(
-                onPressed: () {
-                  setState(() {
-                    show = !show;
-                  });
-                },
-                child: Text(
-                  show ? 'Show more' : 'Show less',
-                  style: TextStyle(fontSize: 20, color: Colors.blue),
-                ),
-              ),
-            );
-          }
-          return Container(
-            //color: Colors.blue,
-            child: Container(
-              height: 150,
-              child: Card(
-                color: Color.fromARGB(255, 216, 225, 217),
-                elevation: 10,
-                clipBehavior: Clip.antiAlias,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      width: 150,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Container(
-                        //height: 150,
-                        width: 150,
-                        clipBehavior: Clip.antiAlias,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            //color: Colors.grey,
-                            boxShadow: [
-                              BoxShadow(
-                                spreadRadius: 5,
-                                blurRadius: 7,
-                                color: Color.fromARGB(255, 160, 159, 157),
-                                offset: Offset(20, 10),
-                              )
-                            ]),
-                        child: Image.network(_netwokimage[index]['image']!,
-                            fit: BoxFit.fitHeight),
-                      ),
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('title'),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text('description'),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(date),
-                      ],
-                    ),
-                    Icon(
-                      (Icons.add_box),
-                    )
-                  ],
-                ),
+    var displaylist = show ? _netwokimage.take(5).toList() : _netwokimage;
+    return ListView.builder(
+      shrinkWrap: true,
+      //
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: displaylist.length + 1,
+      itemBuilder: (context, index) {
+        if (index == displaylist.length) {
+          return Center(
+            child: TextButton(
+              onPressed: () {
+                setState(() {
+                  show = !show;
+                });
+              },
+              child: Text(
+                show ? 'Show more' : 'Show less',
+                style: TextStyle(fontSize: 20, color: Colors.blue),
               ),
             ),
           );
-        },
-      ),
+        }
+        return SizedBox(
+          height: 120,
+          child: Card(
+            margin: EdgeInsets.symmetric(vertical: 5),
+            color: Color.fromARGB(255, 216, 225, 217),
+            elevation: 10,
+            clipBehavior: Clip.antiAlias,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  width: 100, // Constrained width
+                  height: 80, // Constrained height
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      displaylist[index]['image']!,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  // Use Expanded to take available space
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(displaylist[index]['title']!,
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      SizedBox(height: 5),
+                      Text(displaylist[index]['Description']!),
+                      SizedBox(height: 8),
+                      Text(date),
+                    ],
+                  ),
+                ),
+                Icon(Icons.add_box),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
   Widget horizontal() {
-    return Expanded(
+    return SizedBox(
+      height: 180,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: _localimage.length,
@@ -192,23 +161,31 @@ class _HomeState extends State<Home> {
           return Container(
             margin: EdgeInsets.only(right: 5),
             height: 150,
-            //color: Colors.amber,
-            child: Row(children: [
-              Container(
-                height: 150,
-                width: 150,
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: Colors.grey,
+            child: Row(
+              children: [
+                Container(
+                  height: 150,
+                  width: 150,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: Colors.grey,
+                  ),
+                  child: Image.asset(
+                    _localimage[index]['image']!,
+                    fit: BoxFit.fitHeight,
+                  ),
                 ),
-                child: Image.asset(_localimage[index]['image']!,
-                    fit: BoxFit.fitHeight),
-              ),
-              SizedBox(
-                width: 8,
-              ),
-            ]),
+                Text('Title'),
+                SizedBox(
+                  width: 15,
+                ),
+                Text(date),
+                SizedBox(
+                  width: 8,
+                ),
+              ],
+            ),
           );
         },
       ),
