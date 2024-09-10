@@ -1,0 +1,154 @@
+import 'dart:developer';
+
+// import 'package:flutter/material.dart';
+// import 'package:flutter_html/flutter_html.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+
+// class Mcqpage extends StatefulWidget {
+//   final List<Map<String, dynamic>> randomelements;
+//   final int setnumber;
+//   const Mcqpage(
+//       {super.key, required this.randomelements, required this.setnumber});
+
+//   @override
+//   State<Mcqpage> createState() => _McqpageState();
+// }
+
+// class _McqpageState extends State<Mcqpage> {
+//   // int? selectedindex;
+//   Map<int, String> selectedanswer = {};
+//   final ScrollController autoscroll = ScrollController();
+//   List<GlobalKey> questionKeys = [];
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     loadSavedAnswers();
+//     questionKeys =
+//         List.generate(widget.randomelements.length, (index) => GlobalKey());
+//   }
+
+//   @override
+//   void dispose() {
+//     autoscroll.dispose();
+//     super.dispose();
+//   }
+
+//   void loadSavedAnswers() async {
+//     final prefs = await SharedPreferences.getInstance();
+
+//     for (int i = 0; i < widget.randomelements.length; i++) {
+//       final question = widget.randomelements[i];
+//       final id = question['id'];
+
+//       // Retrieve the answer for the specific question from SharedPreferences
+//       String key = 'set_${widget.setnumber}_QN_$id';
+//       String? savedAnswer = prefs.getString(key);
+
+//       if (savedAnswer != null) {
+//         setState(() {
+//           selectedanswer[i] = savedAnswer;
+//         });
+//       }
+//     }
+//   }
+
+//   void scrollToNextQuestion(int currentIndex) {
+//     if (currentIndex + 1 < questionKeys.length) {
+//       final keyContext = questionKeys[currentIndex + 1].currentContext;
+//       if (keyContext != null) {
+//         Scrollable.ensureVisible(
+//           keyContext,
+//           duration: Duration(milliseconds: 300),
+//           curve: Curves.easeInOut,
+//         );
+//       }
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text(
+//           'Questions',
+//           style: TextStyle(fontSize: 15.sp),
+//         ),
+//       ),
+//       // floatingActionButton: FloatingActionButton(
+//       //     child: Icon(Icons.print),
+//       //     onPressed: () async {
+//       //       final prefs = await SharedPreferences.getInstance();
+//       //       for (int i = 0; i < widget.randomelements.length; i++) {
+//       //         String? answer = prefs.getString("selectedanswer_$i");
+//       //         log('Question $i : $answer');
+//       //         print('${widget.setnumber}');
+//       //       }
+//       //     }),
+//       body: ListView.builder(
+//         controller: autoscroll,
+//         itemCount: widget.randomelements.length,
+//         itemBuilder: (context, index) {
+//           final question = widget.randomelements[index];
+//           final id = question['id'];
+//           final body = question['body'];
+//           final answers = question['answers'] as List;
+//           return SizedBox(
+//             height: MediaQuery.of(context).size.height,
+//             width: MediaQuery.of(context).size.width,
+//             child: Padding(
+//               padding: EdgeInsets.all(12.r),
+//               child: Card(
+//                 child: Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Container(
+//                         width: MediaQuery.of(context).size.width,
+//                         decoration: BoxDecoration(border: Border.all()),
+//                         child: Row(
+//                           crossAxisAlignment: CrossAxisAlignment.start,
+//                           children: [
+//                             Text(
+//                               '${index + 1}. ',
+//                               style: TextStyle(fontSize: 15.sp),
+//                             ),
+//                             Expanded(child: Html(data: body)),
+//                           ],
+//                         )),
+//                     SizedBox(
+//                       height: 15.h,
+//                     ),
+//                     for (var ans in answers)
+//                       InkWell(
+//                           onTap: () async {
+//                             setState(() {
+//                               selectedanswer[index] = ans['answer'] as String;
+//                             });
+
+//                             log('${widget.setnumber}');
+//                             //after setting this,
+//                             final prefs = await SharedPreferences.getInstance();
+//                             await prefs.setString(
+//                                 'set_${widget.setnumber}_QN_$id',
+//                                 selectedanswer[index]!); //created unique
+//                             scrollToNextQuestion(index);
+//                             // final next = index + 1;
+//                             // if (next < widget.randomelements.length) {
+//                             //   autoscroll.animateTo(
+//                             //       autoscroll.position.maxScrollExtent,
+//                             //       duration: Duration(milliseconds: 300),
+//                             //       curve: Curves.easeInOut);
+//                             // }
+//                           },
+//                           child: Html(data: ans['answer'] as String)),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
