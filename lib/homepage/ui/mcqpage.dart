@@ -179,6 +179,10 @@ class _McqpageState extends State<Mcqpage> {
                     SizedBox(
                       height: 15.h,
                     ),
+                    Text(
+                      'Answers:',
+                      style: TextStyle(fontSize: 15.sp),
+                    ),
                     for (var ans in answers)
                       InkWell(
                           onTap: () async {
@@ -196,7 +200,12 @@ class _McqpageState extends State<Mcqpage> {
                             // Scroll to the next question
                             scrollToNextQuestion(index);
                           },
-                          child: Html(data: ans['answer'] as String)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                                decoration: BoxDecoration(border: Border.all()),
+                                child: Html(data: ans['answer'] as String)),
+                          )),
                   ],
                 ),
               ),
