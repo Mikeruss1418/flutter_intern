@@ -26,6 +26,9 @@ class _McqpageState extends State<Mcqpage> {
   void initState() {
     super.initState();
     loadSavedAnswers();
+
+    /// The line `questionKeys = List.generate(widget.randomelements.length, (index) => GlobalKey());` is
+    /// generating a list of `GlobalKey` objects for each question in the `widget.randomelements` list.
     questionKeys =
         List.generate(widget.randomelements.length, (index) => GlobalKey());
   }
@@ -77,16 +80,15 @@ class _McqpageState extends State<Mcqpage> {
   void loadAllAnswers() async {
     final prefs = await SharedPreferences.getInstance();
 
-    // Retrieve the JSON string from SharedPreferences
     String? answersJson = prefs.getString('set_${widget.setnumber}_answers');
 
     if (answersJson != null) {
-      // Decode the JSON string back into a map
+      // decodng the JSON string back into a map
       Map<String, dynamic> answersMap = jsonDecode(answersJson);
 
-      // Display the loaded answers
+      // printing loaded ans..
       log('Loaded answers for set ${widget.setnumber}: $answersMap');
-      // Optionally, update the state with the loaded answers
+      // updating the state with the loaded answers
       setState(() {
         selectedanswer =
             answersMap.map((key, value) => MapEntry(int.parse(key), value));
@@ -203,7 +205,12 @@ class _McqpageState extends State<Mcqpage> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                                decoration: BoxDecoration(border: Border.all()),
+                                decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  color: selectedanswer[index] == ans['answer']
+                                      ? Colors.green[100]
+                                      : null,
+                                ),
                                 child: Html(data: ans['answer'] as String)),
                           )),
                   ],

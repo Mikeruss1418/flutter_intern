@@ -11,7 +11,8 @@ class SavedAnswersPage extends StatefulWidget {
 
 class _SavedAnswersPageState extends State<SavedAnswersPage> {
   Map<String, Map<String, dynamic>> allSavedAnswers =
-      {}; // Map to store answers of all sets
+      {};
+       // Map to store answers of all sets
   // Map<int, Map<int, String>> allSavedAnswers =
   //     {}; // Map to store answers of all sets
 
@@ -26,11 +27,11 @@ class _SavedAnswersPageState extends State<SavedAnswersPage> {
     final prefs = await SharedPreferences.getInstance();
 
     // We'll try to load saved answers for all sets, 
+    //start from the set 1
     int setNumber = 1;
     while (true) {
       String? answersJson = prefs.getString('set_${setNumber}_answers');
       if (answersJson == null) {
-        // If no answers found for this set, stop searching
         break;
       }
 
@@ -62,7 +63,6 @@ class _SavedAnswersPageState extends State<SavedAnswersPage> {
               itemBuilder: (context, index) {
                 final setNumber = allSavedAnswers.keys.elementAt(index);
                 final answers = allSavedAnswers[setNumber]!;
-
                 return ExpansionTile(
                   title: Text('Set $setNumber'),
                   children: answers.entries.map((entry) {
