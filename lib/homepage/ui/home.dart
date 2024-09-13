@@ -12,6 +12,7 @@ class Home extends StatelessWidget {
   const Home({super.key});
 
   //for passing random elements
+  
   // List<Map<String, dynamic>> getRandomElements() {
   //   final random = Random();
   //   List<Map<String, dynamic>> randommcq = List.from(testList)..shuffle(random);
@@ -87,24 +88,33 @@ class Home extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(border: Border.all()),
                   child: ListTile(
-                    tileColor: Colors.blueGrey[50],
-                    onTap: () {
-                      context.read<HomeBloc>().add(LoadRandomMCqEvent(
-                          mcqs: testList, setnumber: index + 1));
-                    },
-                    leading: Text(
-                      '${index + 1}',
-                      style: TextStyle(fontSize: 13.sp),
-                    ),
-                    title: Text(
-                      'Set ${index + 1}',
-                      style: TextStyle(fontSize: 15.sp),
-                    ),
-                    trailing: Icon(
-                      Icons.question_answer,
-                      size: 20.r,
-                    ),
-                  ),
+                      tileColor: Colors.blueGrey[50],
+                      onTap: () {
+                        context.read<HomeBloc>().add(LoadRandomMCqEvent(
+                            mcqs: testList, setnumber: index + 1));
+                      },
+                      leading: Text(
+                        '${index + 1}',
+                        style: TextStyle(fontSize: 13.sp),
+                      ),
+                      title: Text(
+                        'Set ${index + 1}',
+                        style: TextStyle(fontSize: 15.sp),
+                      ),
+                      trailing: SizedBox(
+                        height: 35.h,
+                        width: 65.w,
+                        child: Card(
+                            shape: const RoundedRectangleBorder(),
+                            color: Colors.blueAccent[200],
+                            elevation: 5,
+                            child: Center(
+                              child: Text(
+                                'Start!!',
+                                style: TextStyle(fontSize: 15.sp),
+                              ),
+                            )),
+                      )),
                 ),
               );
             },

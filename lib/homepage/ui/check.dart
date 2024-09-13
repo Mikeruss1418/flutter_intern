@@ -21,17 +21,17 @@ class _CheckingState extends State<Checking> {
   bool all = false;
   bool attended = false;
   bool unattended = false;
-  void _loadSavedAnswer() async {
-    final prefs = await SharedPreferences.getInstance();
-    for (int i = 0; i < widget.randomelements.length; i++) {
-      final id = widget.randomelements[i]['id'];
-      final answer = prefs.getString('set_${widget.setnumber}_QN_$id');
-      if (answer != null) {
-        selectedans[i] = answer;
-      }
-    }
-    setState(() {});
-  }
+  // void _loadSavedAnswer() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   for (int i = 0; i < widget.randomelements.length; i++) {
+  //     final id = widget.randomelements[i]['id'];
+  //     final answer = prefs.getString('set_${widget.setnumber}_QN_$id');
+  //     if (answer != null) {
+  //       selectedans[i] = answer;
+  //     }
+  //   }
+  //   setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +46,7 @@ class _CheckingState extends State<Checking> {
           title: Text(
         'Review',
         style: TextStyle(fontSize: 15.sp),
-      )
-          ),
+      )),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15.w),
         child: Column(
@@ -97,53 +96,42 @@ class _CheckingState extends State<Checking> {
                         ? widget.attemptedQuestions.length
                         : unattendedQuestions.length,
                 itemBuilder: (context, index) {
-                  int? qnindex;
+                  int? qnId;
                   if (all) {
-                    qnindex = index;
+                    qnId = widget.randomelements[index]['id'];
                   } else if (attended) {
-                    qnindex = widget.attemptedQuestions[index];
+                    qnId = widget
+                        .randomelements[widget.attemptedQuestions[index]]['id'];
                   } else {
-                    qnindex = unattendedQuestions[index];
-                    // int count = 0;
-                    // for (var i = 0; i < widget.randomelements.length; i++) {
-                    //   if (count == index) {
-                    //     qnindex = 1;
-                    //     break;
-                    //   }
-                    //   count++;
-                    // }
-                    // List<Map<String, dynamic>> unattemptedQuestions = widget
-                    //     .randomelements
-                    //     .where((question) => !widget.attemptedQuestions
-                    //         .contains(widget.randomelements.indexOf(question)))
-                    //     .toList();
-
-                    // final question = unattemptedQuestions[index];
+                    qnId =
+                        widget.randomelements[unattendedQuestions[index]]['id'];
                   }
-                  final question = widget.randomelements[qnindex!];
-                  final id = question['id'];
-                  final body = question['body'];
-                  final answers = question['answers'] as List;
-                  final questionnumber = qnindex + 1;
+                  final question = widget.randomelements.firstWhere(
+                    (element) => element['id'] == qnId,
+                  );
+                  //if needed
+                  // final body = question['body'];
+                  // final answers = question['answers'] as List;
+                  final questionnumber = question['id'];
                   return Padding(
                     padding: EdgeInsets.all(8.0.r),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pop(context, qnindex);
+                        Navigator.pop(context, qnId);
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          border: widget.attemptedQuestions.contains(qnindex)
+                          border: widget.attemptedQuestions.contains(qnId)
                               ? Border.all()
                               : null,
-                          color: widget.attemptedQuestions.contains(qnindex)
+                          color: widget.attemptedQuestions.contains(qnId)
                               // ? const Color.fromARGB(255, 225, 222, 222)
                               ? Colors.blue[500]
                               : const Color.fromARGB(255, 239, 238, 238),
                         ),
                         child: Center(
-                          child: Text('$questionnumber',
-                              style: widget.attemptedQuestions.contains(qnindex)
+                          child: Text('${index + 1}',
+                              style: widget.attemptedQuestions.contains(qnId)
                                   ? const TextStyle(fontWeight: FontWeight.bold)
                                   : null),
                         ),
