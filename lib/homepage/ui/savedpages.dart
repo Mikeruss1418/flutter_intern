@@ -21,11 +21,9 @@ class _SavedAnswersPageState extends State<SavedAnswersPage> {
     super.initState();
     loadAllSavedAnswers(); 
   }
-
   // load answers for all sets from SharedPreferences
   void loadAllSavedAnswers() async {
     final prefs = await SharedPreferences.getInstance();
-
     // We'll try to load saved answers for all sets, 
     //start from the set 1
     int setNumber = 1;
@@ -34,10 +32,8 @@ class _SavedAnswersPageState extends State<SavedAnswersPage> {
       if (answersJson == null) {
         break;
       }
-
       // Decode the JSON string back into a map
       Map<String, dynamic> answersMap = jsonDecode(answersJson);
-
       // Store the answers for this set in the allSavedAnswers map
       setState(() {
         allSavedAnswers['$setNumber'] =
@@ -45,7 +41,6 @@ class _SavedAnswersPageState extends State<SavedAnswersPage> {
         // allSavedAnswers[setNumber] = answersMap
         //     .map((key, value) => MapEntry(int.parse(key), value as String));
       });
-
       setNumber++; // Move to the next set
     }
   }

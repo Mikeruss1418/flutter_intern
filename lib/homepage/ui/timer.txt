@@ -1,0 +1,34 @@
+// import 'dart:async';
+@override
+void initState() {
+  super.initState();
+  starttimer();
+}
+
+Duration duration = const Duration(minutes: 5); //for now default time
+Timer? timer;
+int countdowm = 0; //store current countdown
+void starttimer() {
+  timer = Timer.periodic(
+    Duration(seconds: 1),
+    (timer) {
+      if (duration.inSeconds <= 0) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Time is Finished'),
+          duration: Duration(seconds: 1),
+        ));
+        saveAllAnswers();
+        timer.cancel();
+        setState(() {
+          countdowm = 0;
+        });
+      } else {
+        //updating the value of countdown with each sec.
+        setState(() {
+          countdowm = duration.inSeconds;
+          duration = duration - const Duration(seconds: 1);
+        });
+      }
+    },
+  );
+}

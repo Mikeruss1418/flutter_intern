@@ -6,9 +6,15 @@ sealed class HomeEvent {}
 
 class LoadRandomMCqEvent extends HomeEvent {
   final List<Map<String, dynamic>> mcqs;
-  final int setnumber;//set track
+  final int setnumber; //set track
 
-  LoadRandomMCqEvent({
-    required this.mcqs,required this.setnumber
-  });
+  LoadRandomMCqEvent({required this.mcqs, required this.setnumber});
+}
+
+class ReviewEvent extends HomeEvent {
+  final List<Map<String, dynamic>> randomelements;
+  final int setnumber;
+
+  ReviewEvent({required this.randomelements, required this.setnumber});
+
 }

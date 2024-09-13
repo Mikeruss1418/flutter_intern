@@ -1,0 +1,226 @@
+import 'dart:async';
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:html_unescape/html_unescape.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'home_bloc.dart';
+
+class Mcqpage extends StatefulWidget {
+  final int setnumber;
+  const Mcqpage({super.key, required this.setnumber});
+
+  @override
+  State<Mcqpage> createState() => _McqpageState();
+}
+
+class _McqpageState extends State<Mcqpage> {
+  final ScrollController autoscroll = ScrollController();
+  List<GlobalKey> questionKeys = [];
+  int currentindex = 0;
+  Duration duration = const Duration(seconds: 5); //default time
+  Timer? timer;
+  int countdowm = 0; //store current countdown
+
+  @override
+  void initState() {
+    super.initState();
+    starttimer();
+    autoscroll.addListener(
+      () {
+        int index = (autoscroll.offset /
+                (MediaQuery.of(context).size.height - kToolbarHeight))
+            .round();
+
+        if (index != currentindex) {
+          setState(() {
+            currentindex = index;
+          });
+        }
+      },
+    );
+    questionKeys = List.generate(
+        context.read<HomeBloc>().state.randomMcqs?.length ?? 0,
+        (index) => GlobalKey());
+  }
+
+  void starttimer() {
+    timer = Timer.periodic(
+      Duration(seconds: 1),
+      (timer) {
+        if (duration.inSeconds <= 0) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('Time is Finished')));
+          context.read<HomeBloc>().add(SaveAllAnswers());
+          timer.cancel();
+          setState(() {
+            countdowm = 0;
+          });
+        } else {
+          setState(() {
+            countdowm = duration.inSeconds;
+            duration = duration - Duration(seconds: 1);
+          });
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    autoscroll.dispose();
+    super.dispose();
+  }
+
+  void scrollToNextQuestion(int currentIndex) {
+    if (currentIndex + 1 < questionKeys.length) {
+      final keyContext = questionKeys[currentIndex + 1].currentContext;
+      if (keyContext != null) {
+        Scrollable.ensureVisible(
+          keyContext,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String formattedTime = DateFormat('mm:ss')
+        .format(DateTime(0).add(Duration(seconds: countdowm)));
+
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+        if (state.status == HomeStatus.loading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state.status == HomeStatus.error) {
+          return Center(child: Text('Error: ${state.errorMessage}'));
+        } else if (state.status == HomeStatus.loaded) {
+          final randomMcqs = state.randomMcqs ?? [];
+
+          return Scaffold(
+            appBar: AppBar(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'PracticeSet ${widget.setnumber}',
+                    style: TextStyle(fontSize: 15.sp),
+                  ),
+                  Text('$formattedTime'),
+                  ElevatedButton(
+                      onPressed: () {},
+                      child: Text('${currentindex + 1}/${randomMcqs.length}'))
+                ],
+              ),
+            ),
+            floatingActionButton: FloatingActionButton(
+                child: const Icon(Icons.print),
+                onPressed: () {
+                  context.read<HomeBloc>().add(SaveAllAnswers());
+                }),
+            body: ListView.builder(
+              shrinkWrap: true,
+              controller: autoscroll,
+              itemCount: randomMcqs.length,
+              itemBuilder: (context, index) {
+                final question = randomMcqs[index];
+                final body = question['body'];
+                final answers = question['answers'] as List;
+                return SingleChildScrollView(
+                  child: SizedBox(
+                    key: questionKeys[index],
+                    child: Padding(
+                      padding: EdgeInsets.all(12.r),
+                      child: Card(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(15.r),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${index + 1}. ',
+                                    style: TextStyle(fontSize: 25.sp),
+                                  ),
+                                  Expanded(
+                                      child: Html(
+                                    data: body,
+                                    style: {
+                                      'body': Style(
+                                          fontSize: FontSize(15.sp),
+                                          fontWeight: FontWeight.bold)
+                                    },
+                                  )),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 15.h),
+                            Text(
+                              'Answers:',
+                              style: TextStyle(fontSize: 15.sp),
+                            ),
+                            for (var ans in answers)
+                              InkWell(
+                                  onTap: () {
+                                    context.read<HomeBloc>().add(
+                                        SelectAnswer(index, ans['answer']));
+                                    scrollToNextQuestion(index);
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 18.w, vertical: 10.h),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: state.randomMcqs![index]
+                                                    ['selectedAnswer'] ==
+                                                ans['answer']
+                                            ? Border.all()
+                                            : null,
+                                        color: state.randomMcqs![index]
+                                                    ['selectedAnswer'] ==
+                                                ans['answer']
+                                            ? const Color.fromARGB(
+                                                255, 225, 222, 222)
+                                            : const Color.fromARGB(
+                                                255, 239, 238, 238),
+                                      ),
+                                      child: Html(
+                                        data: ans['answer'] as String,
+                                        style: state.randomMcqs![index]
+                                                    ['selectedAnswer'] ==
+                                                ans['answer']
+                                            ? {
+                                                "body": Style(
+                                                    fontSize: FontSize(15.sp),
+                                                    fontWeight:
+                                                        FontWeight.bold)
+                                              }
+                                            : {},
+                                      ),
+                                    ),
+                                  )),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        }
+        return const SizedBox.shrink();
+      },
+    );
+  }
+}

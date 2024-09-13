@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mmccqq/homepage/Datas/test_dummy_data.dart';
 import 'package:mmccqq/homepage/ui/mcqpage.dart';
 import 'package:mmccqq/homepage/ui/savedpages.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../bloc/home_bloc.dart';
 // import '../bloc/home_state.dart';
@@ -88,6 +87,7 @@ class Home extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(border: Border.all()),
                   child: ListTile(
+                    tileColor: Colors.blueGrey[50],
                     onTap: () {
                       context.read<HomeBloc>().add(LoadRandomMCqEvent(
                           mcqs: testList, setnumber: index + 1));

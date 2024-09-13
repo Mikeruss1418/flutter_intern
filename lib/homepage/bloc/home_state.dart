@@ -1,18 +1,20 @@
 part of 'home_bloc.dart';
 
-enum HomeStatus { initial, loading, loaded, error }
+enum HomeStatus { initial, loading, loaded, error, review }
 
 class HomeState {
   final HomeStatus status;
   final List<Map<String, dynamic>>? randomMcqs;
   final int? setnumber;
   final String? errorMessage;
+  final Map<int, String>? selectedanswer;
 
   const HomeState._({
     required this.status,
     this.randomMcqs,
     this.setnumber,
     this.errorMessage,
+    this.selectedanswer,
   });
 
   // Initial state
@@ -22,10 +24,17 @@ class HomeState {
   factory HomeState.loading() => const HomeState._(status: HomeStatus.loading);
 
   // Loaded state with random MCQs
-  factory HomeState.loaded(List<Map<String, dynamic>> randomMcqs,int setnumber) =>
-      HomeState._(status: HomeStatus.loaded, randomMcqs: randomMcqs,setnumber:setnumber );
+  factory HomeState.loaded(
+          List<Map<String, dynamic>> randomMcqs, int setnumber) =>
+      HomeState._(
+          status: HomeStatus.loaded,
+          randomMcqs: randomMcqs,
+          setnumber: setnumber);
 
   // Error state
   factory HomeState.error(String message) =>
       HomeState._(status: HomeStatus.error, errorMessage: message);
+  // Review class states
+  factory HomeState.review(Map<int, String> selectedanswer) =>
+      HomeState._(status: HomeStatus.review, selectedanswer: selectedanswer);
 }
