@@ -21,7 +21,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         }
 
         final random = Random();
-        final selectedIndexes = <int>{};
+        final selectedIndexes = <int>{};//to store unique random indexes from 0 to 20
 
         // Select 20 random unique indexes
         while (selectedIndexes.length < 20) {

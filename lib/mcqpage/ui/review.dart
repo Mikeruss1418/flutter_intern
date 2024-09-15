@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mmccqq/homepage/bloc/home_bloc.dart';
-import 'package:mmccqq/homepage/ui/mcqpage.dart';
+// import 'package:mmccqq/homepage/ui/mcqpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ReviewScreen extends StatefulWidget {

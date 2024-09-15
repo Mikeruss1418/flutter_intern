@@ -17,15 +17,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(392, 872),
+      designSize: const Size(392, 872), //my screen size
       minTextAdapt: true,
+      splitScreenMode: true,
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
             create: (context) => HomeBloc(),
           ),
         ],
-        child: MaterialApp(
+        child: const MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             home: Home()),
