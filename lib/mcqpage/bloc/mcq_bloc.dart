@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:html_unescape/html_unescape.dart';
@@ -13,24 +14,34 @@ class McqBloc extends Bloc<McqEvent, McqState> {
     on<SaveAllAnswerEvent>(
       (event, emit) async {
         final prefs = await SharedPreferences.getInstance();
-      HtmlUnescape unescape = HtmlUnescape();
+        HtmlUnescape unescape = HtmlUnescape();
 
-      // Save selected answers
-      Map<String, dynamic> decodedAnswers = event.answer.map((key, value) {
-        return MapEntry(key.toString(), unescape.convert(value));
-      });
-      String answersJson = jsonEncode(decodedAnswers);
-      // await prefs.setString(
-      //     'set_${event.questions[0]['setnumber']}_answers', answersJson);
-      await prefs.setString(
-          'set_${event.setnumber}_answers', answersJson);
-          
-      // Save the entire set of questions
-      String questionsJson = jsonEncode(event.questions);
-      // await prefs.setString(
-      //     'set_${event.questions[0]['setnumber']}_questions', questionsJson);
-      await prefs.setString(
-          'set_${event.setnumber}_questions', questionsJson);
+        // Save selected answers
+        Map<String, dynamic> decodedAnswers = event.answer.map((key, value) {
+          return MapEntry(key.toString(), unescape.convert(value));
+        });
+        String answersJson = jsonEncode(decodedAnswers);
+        // await prefs.setString(
+        //     'set_${event.questions[0]['setnumber']}_answers', answersJson);
+        await prefs.setString('set_${event.setnumber}_answers', answersJson);
+
+        // Save the entire set of questions
+        String questionsJson = jsonEncode(event.questions);
+        // await prefs.setString(
+        //     'set_${event.questions[0]['setnumber']}_questions', questionsJson);
+        await prefs.setString(
+            'set_${event.setnumber}_questions', questionsJson);
+      },
+    );
+
+    on<ClearSavedAnswersEvent>(
+      (event, emit) async {
+        for (var element in event.questions) {
+          final prefs = await SharedPreferences.getInstance();
+          final id = element['id'];
+          await prefs.remove('set_${event.setnumber}_QN_$id');
+        }
+        log('All answers for set ${event.setnumber} have been cleared');
       },
     );
   }

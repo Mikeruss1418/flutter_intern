@@ -168,20 +168,20 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
     );
   }
 
-  Future<void> clearSavedAnswers() async {
-    final prefs = await SharedPreferences.getInstance();
+  // Future<void> clearSavedAnswers() async {
+  //   final prefs = await SharedPreferences.getInstance();
 
-    // Remove all saved answers for the current set
-    // await prefs.remove('set_${widget.setnumber}_answers');
+  //   // Remove all saved answers for the current set
+  //   // await prefs.remove('set_${widget.setnumber}_answers');
 
-    // Optionally, you can also clear individual questions
-    for (var element in widget.randomelements) {
-      final id = element['id'];
-      await prefs.remove('set_${widget.setnumber}_QN_$id');
-    }
+  //   // Optionally, you can also clear individual questions
+  //   for (var element in widget.randomelements) {
+  //     final id = element['id'];
+  //     await prefs.remove('set_${widget.setnumber}_QN_$id');
+  //   }
 
-    log('All answers for set ${widget.setnumber} have been cleared.');
-  }
+  //   log('All answers for set ${widget.setnumber} have been cleared.');
+  // }
 
   @override
   void dispose() {
@@ -189,25 +189,6 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
     blinkcontroller.dispose();
     super.dispose();
   }
-
-  // void saveAllAnswers() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   HtmlUnescape unescape = HtmlUnescape();
-
-  //   // Save selected answers
-  //   Map<String, dynamic> decodedAnswers = selectedanswer.map((key, value) {
-  //     return MapEntry(key.toString(), unescape.convert(value));
-  //   });
-  //   String answersJson = jsonEncode(decodedAnswers);
-  //   await prefs.setString('set_${widget.setnumber}_answers', answersJson);
-
-  //   // Save the entire set of questions
-  //   List<Map<String, dynamic>> questions = widget.randomelements;
-  //   String questionsJson = jsonEncode(questions);
-  //   await prefs.setString('set_${widget.setnumber}_questions', questionsJson);
-
-  //   log('All answers and questions saved for set ${widget.setnumber}'); //checking
-  // }
 
   ///dialog for submit
   Future<bool?> _showBackDialog() {
@@ -308,12 +289,18 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
-        await clearSavedAnswers();
+        // await clearSavedAnswers();
+        context.read<McqBloc>().add(ClearSavedAnswersEvent(
+            questions: widget.randomelements, setnumber: widget.setnumber));
         if (didPop) {
           return;
         }
         final bool shouldpop = await _showBackDialog() ?? false;
         if (context.mounted && shouldpop) {
+          context.read<McqBloc>().add(SaveAllAnswerEvent(
+              questions: widget.randomelements,
+              answer: selectedanswer,
+              setnumber: widget.setnumber));
           Navigator.pop(context);
         }
       },
