@@ -22,7 +22,6 @@ class _CheckingState extends State<Checking> {
   bool all = false;
   bool attended = false;
   bool unattended = true;
-
   // void _loadSavedAnswer() async {
   //   final prefs = await SharedPreferences.getInstance();
   //   for (int i = 0; i < widget.randomelements.length; i++) {
@@ -54,7 +53,7 @@ class _CheckingState extends State<Checking> {
             'Review',
             style: TextStyle(fontSize: 15.sp),
           ),
-          GestureDetector(
+          InkWell(
               onTap: () => Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -160,7 +159,7 @@ class _CheckingState extends State<Checking> {
                   // final id = question['id'];
                   return Padding(
                     padding: EdgeInsets.all(8.0.r),
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {
                         Navigator.pop(
                             context, question); //need to provide the index here

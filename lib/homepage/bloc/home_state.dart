@@ -1,6 +1,6 @@
 part of 'home_bloc.dart';
 
-enum HomeStatus { initial, loading, loaded, error, review }
+enum HomeStatus { initial, loading, loaded, error, saveallanswer }
 
 class HomeState {
   final HomeStatus status;
@@ -34,7 +34,9 @@ class HomeState {
   // Error state
   factory HomeState.error(String message) =>
       HomeState._(status: HomeStatus.error, errorMessage: message);
-  // Review class states
-  factory HomeState.review(Map<int, String> selectedanswer) =>
-      HomeState._(status: HomeStatus.review, selectedanswer: selectedanswer);
+  // // Review class states
+  // factory HomeState.review(Map<int, String> selectedanswer) =>
+  //     HomeState._(status: HomeStatus.review, selectedanswer: selectedanswer);
+  factory HomeState.saveallanswer() =>
+      const HomeState._(status: HomeStatus.saveallanswer);
 }

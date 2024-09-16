@@ -30,7 +30,7 @@ class MyBlocObserver extends BlocObserver {
           // log('Set Number: ${nextState.setnumber}');
         } else if (nextState.status == HomeStatus.error) {
           log('Error Message: ${nextState.errorMessage}');
-        } else if (nextState.status == HomeStatus.review) {
+        } else if (nextState.status == HomeStatus.saveallanswer) {
           // log('Selected Answers: ${nextState.selectedanswer}');
         }
       }

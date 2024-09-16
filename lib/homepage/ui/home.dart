@@ -9,18 +9,10 @@ import 'package:mmccqq/homepage/ui/setlist.dart';
 
 import '../../mcqpage/ui/mcqpage.dart';
 import '../bloc/home_bloc.dart';
-// import '../bloc/home_state.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
 
-  //for passing random elements
-
-  // List<Map<String, dynamic>> getRandomElements() {
-  //   final random = Random();
-  //   List<Map<String, dynamic>> randommcq = List.from(testList)..shuffle(random);
-  //   return randommcq.take(5).toList();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -78,34 +70,46 @@ class Home extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Padding(
                   padding: EdgeInsets.all(10.r),
-                  child: ListTile(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.r)),
-                    tileColor: const Color.fromARGB(255, 228, 230, 231),
-                    onTap: () {
-                      context.read<HomeBloc>().add(LoadRandomMCqEvent(
-                          mcqs: testList, setnumber: index + 1));
-                    },
-                    leading: Text(
-                      '${index + 1}',
-                      style: TextStyle(fontSize: 15.sp),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 0,
+                          offset: const Offset(2, 2),
+                        ),
+                      ],
                     ),
-                    title: Text(
-                      'Set ${index + 1}',
-                      style: TextStyle(fontSize: 19.sp),
-                    ),
-                    trailing: SizedBox(
-                      height: 35.h,
-                      width: 65.w,
-                      child: Card(
-                        // shape: const RoundedRectangleBorder(),
-                        color: Colors.black,
-                        elevation: 5,
-                        child: Center(
-                          child: Text(
-                            'Start!!',
-                            style:
-                                TextStyle(fontSize: 15.sp, color: Colors.white),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16.r, vertical: 12.r),
+                      tileColor: Colors.grey[0],
+                      onTap: () {
+                        context.read<HomeBloc>().add(LoadRandomMCqEvent(
+                            mcqs: testList, setnumber: index + 1));
+                      },
+                      leading: Text(
+                        '${index + 1}.',
+                        style: TextStyle(fontSize: 18.sp),
+                      ),
+                      title: Text(
+                        'Set ${index + 1}',
+                        style: TextStyle(fontSize: 19.sp),
+                      ),
+                      trailing: SizedBox(
+                        height: 35.h,
+                        width: 65.w,
+                        child: Card(
+                          shape: const RoundedRectangleBorder(),
+                          color: Colors.black,
+                          elevation: 5,
+                          child: Center(
+                            child: Text(
+                              'Start!!',
+                              style: TextStyle(
+                                  fontSize: 15.sp, color: Colors.white),
+                            ),
                           ),
                         ),
                       ),

@@ -1,4 +1,3 @@
-
 part of 'home_bloc.dart';
 
 @immutable
@@ -11,10 +10,4 @@ class LoadRandomMCqEvent extends HomeEvent {
   LoadRandomMCqEvent({required this.mcqs, required this.setnumber});
 }
 
-class ReviewEvent extends HomeEvent {
-  final List<Map<String, dynamic>> randomelements;
-  final int setnumber;
 
-  ReviewEvent({required this.randomelements, required this.setnumber});
-
-}

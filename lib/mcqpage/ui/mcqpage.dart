@@ -9,6 +9,7 @@ import 'package:html_unescape/html_unescape.dart';
 import 'package:intl/intl.dart';
 import 'package:mmccqq/homepage/bloc/home_bloc.dart';
 import 'package:mmccqq/homepage/ui/home.dart';
+import 'package:mmccqq/mcqpage/bloc/mcq_bloc.dart';
 import 'package:mmccqq/mcqpage/ui/check.dart';
 import 'package:mmccqq/mcqpage/widgets/dialogbutton.dart';
 import 'package:mmccqq/mcqpage/widgets/dialogtxt.dart';
@@ -51,7 +52,11 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       if (duration.inSeconds <= 0) {
         isTimerRunning = false;
-        saveAllAnswers();
+        // saveAllAnswers();
+        context.read<McqBloc>().add(SaveAllAnswerEvent(
+            questions: widget.randomelements,
+            answer: selectedanswer,
+            setnumber: widget.setnumber));
         timer.cancel();
         setState(() {
           countdown = 0;
@@ -110,19 +115,22 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
                     ),
                     SizedBox(height: 20.h),
                     Dialogtxt(
-                      label: 'Attended Qns ',
+                      label: 'Attended Qns: ',
                       count: '${selectedanswer.keys.length}',
                       color: Colors.green[700]!,
                     ),
                     SizedBox(height: 10.h),
-                    Dialogtxt(
-                      label: 'Unattended Qns ',
-                      count:
-                          '${widget.randomelements.length - selectedanswer.keys.length}',
-                      color: Colors.red[700]!,
+                    Container(
+                      margin: EdgeInsets.only(left: 20.w),
+                      child: Dialogtxt(
+                        label: 'Unattended Qns: ',
+                        count:
+                            '${widget.randomelements.length - selectedanswer.keys.length}',
+                        color: Colors.red[700]!,
+                      ),
                     ),
                     SizedBox(height: 30.h),
-                    GestureDetector(
+                    InkWell(
                       onTap: () => Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
@@ -182,24 +190,24 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  void saveAllAnswers() async {
-    final prefs = await SharedPreferences.getInstance();
-    HtmlUnescape unescape = HtmlUnescape();
+  // void saveAllAnswers() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   HtmlUnescape unescape = HtmlUnescape();
 
-    // Save selected answers
-    Map<String, dynamic> decodedAnswers = selectedanswer.map((key, value) {
-      return MapEntry(key.toString(), unescape.convert(value));
-    });
-    String answersJson = jsonEncode(decodedAnswers);
-    await prefs.setString('set_${widget.setnumber}_answers', answersJson);
+  //   // Save selected answers
+  //   Map<String, dynamic> decodedAnswers = selectedanswer.map((key, value) {
+  //     return MapEntry(key.toString(), unescape.convert(value));
+  //   });
+  //   String answersJson = jsonEncode(decodedAnswers);
+  //   await prefs.setString('set_${widget.setnumber}_answers', answersJson);
 
-    // Save the entire set of questions
-    List<Map<String, dynamic>> questions = widget.randomelements;
-    String questionsJson = jsonEncode(questions);
-    await prefs.setString('set_${widget.setnumber}_questions', questionsJson);
+  //   // Save the entire set of questions
+  //   List<Map<String, dynamic>> questions = widget.randomelements;
+  //   String questionsJson = jsonEncode(questions);
+  //   await prefs.setString('set_${widget.setnumber}_questions', questionsJson);
 
-    log('All answers and questions saved for set ${widget.setnumber}'); //checking
-  }
+  //   log('All answers and questions saved for set ${widget.setnumber}'); //checking
+  // }
 
   ///dialog for submit
   Future<bool?> _showBackDialog() {
@@ -247,7 +255,7 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 20.h),
-                  Row(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Dialogtxt(
@@ -255,11 +263,14 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
                         count: '${selectedanswer.keys.length}',
                         color: Colors.green[700]!,
                       ),
-                      Dialogtxt(
-                        label: 'Unattended Qns ',
-                        count:
-                            '${widget.randomelements.length - selectedanswer.keys.length}',
-                        color: Colors.red[700]!,
+                      Container(
+                        margin: EdgeInsets.only(left: 20.w),
+                        child: Dialogtxt(
+                          label: 'Unattended Qns ',
+                          count:
+                              '${widget.randomelements.length - selectedanswer.keys.length}',
+                          color: Colors.red[700]!,
+                        ),
                       ),
                     ],
                   ),
@@ -333,16 +344,16 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
                   );
                 },
               ),
-              GestureDetector(
+              InkWell(
                 onTap: () async {
                   /// The line `List<int> attemptedQuestions = selectedanswer.keys.toList();` is
                   /// creating a new list `attemptedQuestions` that contains all the keys from the
                   /// `selectedanswer` map converted to a list of integers.
                   List<int> attemptedQuestions = selectedanswer.keys.toList();
-                  context.read<HomeBloc>().add(ReviewEvent(
-                        randomelements: widget.randomelements,
-                        setnumber: widget.setnumber,
-                      ));
+                  // context.read<HomeBloc>().add(SaveAllAnswerEvent(
+                  //       questions: widget.randomelements,
+                  //       setnumber: widget.setnumber,
+                  //     ));
 
                   final selectedQuestion = await showModalBottomSheet<int>(
                     context: context,
@@ -402,7 +413,11 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
             onPressed: () async {
               final bool shouldsubmit = await _showBackDialog() ?? false;
               if (context.mounted && shouldsubmit) {
-                saveAllAnswers();
+                // saveAllAnswers();
+                context.read<McqBloc>().add(SaveAllAnswerEvent(
+                    questions: widget.randomelements,
+                    answer: selectedanswer,
+                    setnumber: widget.setnumber));
                 Navigator.pop(context);
               }
             },
@@ -411,6 +426,7 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
         body: Padding(
           padding: EdgeInsets.all(20.r),
           child: ScrollablePositionedList.builder(
+              physics: const BouncingScrollPhysics(),
               itemScrollController: autoscroll,
               itemBuilder: (context, index) {
                 final question = widget.randomelements[index];
@@ -452,22 +468,23 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
                         style: TextStyle(fontSize: 16.sp),
                       ),
                       for (var ans in answers)
-                        GestureDetector(
+                        InkWell(
                           onTap: isTimerRunning
                               ? () async {
                                   //
                                   setState(() {
                                     selectedanswer[index] = ans['answer'];
                                   });
-                                  if (index + 1 <
-                                      widget.randomelements.length) {
-                                    autoscroll.jumpTo(index: index + 1);
-                                  }
+
                                   final prefs =
                                       await SharedPreferences.getInstance();
                                   await prefs.setString(
                                       'set_${widget.setnumber}_QN_$id',
                                       selectedanswer[index]!);
+                                  if (index + 1 <
+                                      widget.randomelements.length) {
+                                    autoscroll.jumpTo(index: index + 1);
+                                  }
                                 }
                               : null,
                           child: Container(

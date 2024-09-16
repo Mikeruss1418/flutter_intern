@@ -32,3 +32,89 @@ void starttimer() {
     },
   );
 }
+// ProfileScreen.dart
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class ProfileScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('User Profile')),
+      body: BlocBuilder<UserBloc, UserState>(
+        builder: (context, state) {
+          return Column(
+            children: [
+              // Display profile picture
+              CircleAvatar(
+                backgroundImage: NetworkImage(state.profilePictureUrl),
+                radius: 50,
+              ),
+              SizedBox(height: 20),
+              // Display user name
+              Text(state.name, style: TextStyle(fontSize: 24)),
+              SizedBox(height: 20),
+              // Buttons to trigger events
+              ElevatedButton(
+                onPressed: () {
+                  BlocProvider.of<UserBloc>(context)
+                      .add(UpdateNameEvent('New Name'));
+                },
+                child: Text('Update Name'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  BlocProvider.of<UserBloc>(context)
+                      .add(UpdateProfilePictureEvent('new_profile_picture.png'));
+                },
+                child: Text('Update Profile Picture'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+// ProfileScreen.dart
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class ProfileScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('User Profile')),
+      body: BlocBuilder<UserBloc, UserState>(
+        builder: (context, state) {
+          return Column(
+            children: [
+              // Display profile picture
+              CircleAvatar(
+                backgroundImage: NetworkImage(state.profilePictureUrl),
+                radius: 50,
+              ),
+              SizedBox(height: 20),
+              // Display user name
+              Text(state.name, style: TextStyle(fontSize: 24)),
+              SizedBox(height: 20),
+              // Buttons to trigger events
+              ElevatedButton(
+                onPressed: () {
+                  BlocProvider.of<UserBloc>(context)
+                      .add(UpdateNameEvent('New Name'));
+                },
+                child: Text('Update Name'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  BlocProvider.of<UserBloc>(context)
+                      .add(UpdateProfilePictureEvent('new_profile_picture.png'));
+                },
+                child: Text('Update Profile Picture'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
