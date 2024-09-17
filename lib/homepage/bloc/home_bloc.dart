@@ -1,10 +1,7 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
-import 'package:html_unescape/html_unescape.dart';
 import 'package:meta/meta.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';

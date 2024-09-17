@@ -13,7 +13,7 @@ class Savedset extends StatefulWidget {
 }
 
 class _SavedsetState extends State<Savedset> {
-  Map<int, String> selectedAnswers = {};
+  Map<int, String> selectedanswer = {};
   List<Map<String, dynamic>> questions = [];
 
   @override
@@ -30,7 +30,7 @@ class _SavedsetState extends State<Savedset> {
     if (answersJson != null) {
       Map<String, dynamic> answersMap = jsonDecode(answersJson);
       setState(() {
-        selectedAnswers =
+        selectedanswer =
             answersMap.map((key, value) => MapEntry(int.parse(key), value));
       });
     }
@@ -50,21 +50,27 @@ class _SavedsetState extends State<Savedset> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text('Saved Answers for Set ${widget.setnumber}'),
       ),
-      body: questions.isEmpty? Center(child: Text('No data Found here'),): 
-      ListView.builder(
-        itemCount: questions.length,
-        itemBuilder: (context, index) {
-          final question = questions[index];
-          final id = question['id'];
-          final body = question['body'];
-          final answers = question['answers'] as List;
+      body:
+       questions.isEmpty
+          ? const Center(
+              child: Text('No data Found here'),
+            )
+          : Padding(
+              padding: EdgeInsets.all(20.r),
+              child: ListView.builder(
+                itemCount: questions.length,
+                itemBuilder: (context, index) {
+                  final question = questions[index];
+                  // final id = question['id'];
+                  final body = question['body'];
+                  final answers = question['answers'] as List;
 
-          return  Card(
-                  elevation: 2,
-                  child: Padding(
+                  return Padding(
                     padding: EdgeInsets.all(15.r),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,8 +79,11 @@ class _SavedsetState extends State<Savedset> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${index + 1}',
+                              '${index + 1}.',
                               style: TextStyle(fontSize: 22.sp),
+                            ),
+                            SizedBox(
+                              width: 10.w,
                             ),
                             Expanded(
                               child: Html(
@@ -88,7 +97,9 @@ class _SavedsetState extends State<Savedset> {
                             )
                           ],
                         ),
-                        SizedBox(height: 10.h),
+                        SizedBox(
+                          height: 10.h,
+                        ),
                         Text(
                           'Answers',
                           style: TextStyle(fontSize: 16.sp),
@@ -97,30 +108,29 @@ class _SavedsetState extends State<Savedset> {
                           Container(
                             margin: EdgeInsets.symmetric(vertical: 8.h),
                             decoration: BoxDecoration(
-                              border: selectedAnswers[index] == ans['answer']
+                              border: selectedanswer[index] == ans['answer']
                                   ? Border.all()
                                   : null,
-                              color: selectedAnswers[index] == ans['answer']
+                              color: selectedanswer[index] == ans['answer']
                                   ? const Color.fromARGB(255, 225, 222, 222)
                                   : const Color.fromARGB(255, 239, 238, 238),
                             ),
                             child: Html(
-                              data: ans['answer'] as String,
-                              style: selectedAnswers[index] == ans['answer']
-                                  ? {
-                                      'body': Style(
-                                          fontSize: FontSize(16.sp),
-                                          fontWeight: FontWeight.bold)
-                                    }
-                                  : {},
-                            ),
-                          ),
+                                data: ans['answer'] as String,
+                                style: selectedanswer[index] == ans['answer']
+                                    ? {
+                                        'body': Style(
+                                            fontSize: FontSize(16.sp),
+                                            fontWeight: FontWeight.bold)
+                                      }
+                                    : {}),
+                          )
                       ],
                     ),
-                  ),
-                );
-        },
-      ),
+                  );
+                },
+              ),
+            ),
     );
   }
 }

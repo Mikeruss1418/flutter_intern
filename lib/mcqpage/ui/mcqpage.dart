@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,7 +8,6 @@ import 'package:mmccqq/mcqpage/bloc/mcq_bloc.dart';
 import 'package:mmccqq/mcqpage/ui/check.dart';
 import 'package:mmccqq/mcqpage/widgets/dialog_box.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -55,9 +54,8 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
             answer: selectedanswer,
             setnumber: widget.setnumber));
         timer.cancel();
-        countdown.value = 0;
-        // setState(() {
-        // });
+        countdown.value = 0; //current value stored in the countdown here.
+
         final bool timesup = await showdialogbox.timefinished(
                 context,
                 selectedanswer.keys.length,
@@ -271,7 +269,7 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
                                   await prefs.setString(
                                       'set_${widget.setnumber}_QN_$id',
                                       selectedanswer[index]!);
-                                  print('set_${widget.setnumber}_QN_$id');
+                                  log('set_${widget.setnumber}_QN_$id');
                                   //autoscrolling
                                   if (index + 1 <
                                       widget.randomelements.length) {

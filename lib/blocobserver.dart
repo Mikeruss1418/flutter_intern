@@ -1,45 +1,29 @@
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mmccqq/homepage/bloc/home_bloc.dart';
+import 'package:mmccqq/mcqpage/bloc/mcq_bloc.dart';
 
 class MyBlocObserver extends BlocObserver {
   @override
   void onEvent(Bloc bloc, Object? event) {
     super.onEvent(bloc, event);
-    log('Event : ${bloc.runtimeType}, $event');
-  }
-
-  @override
-  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
-    super.onError(bloc, error, stackTrace);
-    log('Error : ${bloc.runtimeType}, $error');
-  }
-
-  @override
-  void onChange(BlocBase bloc, Change change) {
-    super.onChange(bloc, change);
+    if (bloc is McqBloc) {
+      log('McqBloc Event: $event');
+    }
     if (bloc is HomeBloc) {
-      final currentState = change.currentState;
-      final nextState = change.nextState;
-
-      if (currentState is HomeState && nextState is HomeState) {
-        log('Onchange : ${bloc.runtimeType}, ${currentState.status} -> ${nextState.status}');
-        if (nextState.status == HomeStatus.loaded) {
-          // log('Loaded MCQs: ${nextState.randomMcqs}');
-          // log('Set Number: ${nextState.setnumber}');
-        } else if (nextState.status == HomeStatus.error) {
-          log('Error Message: ${nextState.errorMessage}');
-        } else if (nextState.status == HomeStatus.saveallanswer) {
-          // log('Selected Answers: ${nextState.selectedanswer}');
-        }
-      }
+      log('HomeBloc Event: $event');
     }
   }
 
   @override
   void onTransition(Bloc bloc, Transition transition) {
     super.onTransition(bloc, transition);
-    log('Transition : ${bloc.runtimeType}, $transition');
+    if (bloc is McqBloc) {
+      log('McqBloc Transition: ${transition.event.runtimeType} -> ${transition.nextState}');
+    }
+    if (bloc is HomeBloc) {
+      log('HomeBloc Transition:${transition.event.runtimeType} -> ${transition.nextState.runtimeType}');
+    }
   }
 }

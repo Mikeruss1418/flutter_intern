@@ -25,18 +25,6 @@ class LoadSavedAnswerEvent extends McqEvent {
   LoadSavedAnswerEvent({required this.setnumber, required this.questions});
 }
 
-// class AttemptedQuestionsEvent extends McqEvent {
-//   final List<int> attemptedqns;
-
-//   AttemptedQuestionsEvent({required this.attemptedqns});
-// }
-
-// class SelectedQuestionsEvent extends McqEvent {
-//   final int selectedqns;
-
-//   SelectedQuestionsEvent({required this.selectedqns});
-// }
-
 class SelectedAnswerEvent extends McqEvent {
   final int questionindex;
   final String selectedanswer;

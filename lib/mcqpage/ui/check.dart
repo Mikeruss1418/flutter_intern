@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mmccqq/mcqpage/ui/review.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Checking extends StatefulWidget {
   final List<Map<String, dynamic>> randomelements;
@@ -22,17 +21,6 @@ class _CheckingState extends State<Checking> {
   bool all = false;
   bool attended = false;
   bool unattended = true;
-  // void _loadSavedAnswer() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   for (int i = 0; i < widget.randomelements.length; i++) {
-  //     final id = widget.randomelements[i]['id'];
-  //     final answer = prefs.getString('set_${widget.setnumber}_QN_$id');
-  //     if (answer != null) {
-  //       selectedans[i] = answer;
-  //     }
-  //   }
-  //   setState(() {});
-  // }
 
   @override
   Widget build(BuildContext context) {

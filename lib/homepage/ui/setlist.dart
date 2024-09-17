@@ -92,7 +92,9 @@
 //   }
 // }
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mmccqq/homepage/ui/savedset.dart';
+import 'package:mmccqq/homepage/ui/widgets/listview.dart';
 
 class Setlist extends StatefulWidget {
   const Setlist({super.key});
@@ -106,18 +108,23 @@ class _SetlistState extends State<Setlist> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('SetList'),
+        title: const Text('SetList'),
       ),
-      body: ListView.builder(
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          return ListTile(
-            onTap: () =>Navigator.push(context,MaterialPageRoute(builder: (context) => Savedset(setnumber: index+1),),),
-            leading: Text('${index +1}'),
-            title: Text('Set ${index +1}'),
-            trailing: Text('Result'),
-          );
-        },
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 18.w),
+        child: ListView.builder(
+          itemCount: 5,
+          itemBuilder: (context, index) {
+            return Listview(
+                onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Savedset(setnumber: index + 1),
+                    )),
+                text: 'Result',
+                index: index);
+          },
+        ),
       ),
     );
   }

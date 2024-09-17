@@ -7,14 +7,13 @@ class HomeState {
   final List<Map<String, dynamic>>? randomMcqs;
   final int? setnumber;
   final String? errorMessage;
-  final Map<int, String>? selectedanswer;
+  
 
   const HomeState._({
     required this.status,
     this.randomMcqs,
     this.setnumber,
     this.errorMessage,
-    this.selectedanswer,
   });
 
   // Initial state
@@ -35,8 +34,7 @@ class HomeState {
   factory HomeState.error(String message) =>
       HomeState._(status: HomeStatus.error, errorMessage: message);
   // // Review class states
-  // factory HomeState.review(Map<int, String> selectedanswer) =>
-  //     HomeState._(status: HomeStatus.review, selectedanswer: selectedanswer);
+
   factory HomeState.saveallanswer() =>
       const HomeState._(status: HomeStatus.saveallanswer);
 }

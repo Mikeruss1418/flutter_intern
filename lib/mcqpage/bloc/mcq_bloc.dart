@@ -49,20 +49,7 @@ class McqBloc extends Bloc<McqEvent, McqState> {
         log('All answers for set ${event.setnumber} have been cleared');
       },
     );
-    // on<LoadSavedAnswerEvent>(
-    //   (event, emit) async {
-    //     final prefs = await SharedPreferences.getInstance();
-    //         final updatedans = Map<int, String>.from(state.selectedanswers);
-    //     for (var i = 0; i < event.questions.length; i++) {
-    //       final id = event.questions[i]['id'];
-    //       final answer = prefs.getString('set_${event.setnumber}_QN_$id');
-    //       if (answer != null) {
-    //         updatedans[i] = answer;
-    //         emit(state.copyWith(selectedanswers: updatedans));
-    //       }
-    //     }
-    //   },
-    // );
+
     on<LoadSavedAnswerEvent>(
   (event, emit) async {
     final prefs = await SharedPreferences.getInstance();
@@ -77,18 +64,6 @@ class McqBloc extends Bloc<McqEvent, McqState> {
     emit(state.copyWith(selectedanswers: updatedAnswers));
   },
 );
-
-    // on<AttemptedQuestionsEvent>(
-    //   (event, emit) {
-    //     emit(state.copyWith(attemptedqns: event.attemptedqns));
-    //   },
-    // );
-
-    // on<SelectedQuestionsEvent>(
-    //   (event, emit) {
-    //     emit(state.copyWith(selectedqns: event.selectedqns));
-    //   },
-    // );
 
     on<SelectedAnswerEvent>(
       (event, emit) {
