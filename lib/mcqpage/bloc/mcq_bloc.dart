@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,7 +12,10 @@ part 'mcq_event.dart';
 part 'mcq_state.dart';
 
 class McqBloc extends Bloc<McqEvent, McqState> {
-  McqBloc() : super(McqState()) {
+  Timer? timer;
+  McqBloc() : super(McqState(
+            // attemptedqns: [],
+            selectedanswers: {})) {
     on<SaveAllAnswerEvent>(
       (event, emit) async {
         final prefs = await SharedPreferences.getInstance();
@@ -42,6 +47,62 @@ class McqBloc extends Bloc<McqEvent, McqState> {
           await prefs.remove('set_${event.setnumber}_QN_$id');
         }
         log('All answers for set ${event.setnumber} have been cleared');
+      },
+    );
+    // on<LoadSavedAnswerEvent>(
+    //   (event, emit) async {
+    //     final prefs = await SharedPreferences.getInstance();
+    //         final updatedans = Map<int, String>.from(state.selectedanswers);
+    //     for (var i = 0; i < event.questions.length; i++) {
+    //       final id = event.questions[i]['id'];
+    //       final answer = prefs.getString('set_${event.setnumber}_QN_$id');
+    //       if (answer != null) {
+    //         updatedans[i] = answer;
+    //         emit(state.copyWith(selectedanswers: updatedans));
+    //       }
+    //     }
+    //   },
+    // );
+    on<LoadSavedAnswerEvent>(
+  (event, emit) async {
+    final prefs = await SharedPreferences.getInstance();
+    final updatedAnswers = Map<int, String>.from(state.selectedanswers);
+    event.questions.asMap().forEach((index, question) {
+      final id = question['id'];
+      final answer = prefs.getString('set_${event.setnumber}_QN_$id');
+      if (answer != null) {
+        updatedAnswers[index] = answer;
+      }
+    });
+    emit(state.copyWith(selectedanswers: updatedAnswers));
+  },
+);
+
+    // on<AttemptedQuestionsEvent>(
+    //   (event, emit) {
+    //     emit(state.copyWith(attemptedqns: event.attemptedqns));
+    //   },
+    // );
+
+    // on<SelectedQuestionsEvent>(
+    //   (event, emit) {
+    //     emit(state.copyWith(selectedqns: event.selectedqns));
+    //   },
+    // );
+
+    on<SelectedAnswerEvent>(
+      (event, emit) {
+        final updatedanswers = Map<int, String>.from(state.selectedanswers);
+        updatedanswers[event.questionindex] = event.selectedanswer;
+        emit(state.copyWith(selectedanswers: updatedanswers));
+      },
+    );
+
+    on<SaveEachAnswerEvent>(
+      (event, emit) async {
+        final pref = await SharedPreferences.getInstance();
+        await pref.setString('set_${event.setnuber}_QN_${event.questionid}',
+            event.selectedanswer);
       },
     );
   }
