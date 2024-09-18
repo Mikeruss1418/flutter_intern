@@ -14,7 +14,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(HomeState.loading());
 
       try {
-        if (event.mcqs.length < 20) {
+        if (event.mcqs.length < 300) {
           emit(HomeState.error('Not enough MCQs available.'));
           return;
         }
@@ -24,7 +24,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             <int>{}; //to store unique random indexes from 0 to 20
 
         // Select 20 random unique indexes
-        while (selectedIndexes.length < 20) {
+        while (selectedIndexes.length < 300) {
           selectedIndexes.add(random.nextInt(event.mcqs.length));
         }
 

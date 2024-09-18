@@ -41,11 +41,13 @@ class Listview extends StatelessWidget {
             'Practice-Set ${index + 1}',
             style: TextStyle(fontSize: 19.sp),
           ),
+          
           trailing: SizedBox(
             height: 35.h,
             width: 65.w,
             child: Card(
-              shape: const RoundedRectangleBorder(),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.r)),
               color: Colors.black,
               elevation: 5,
               child: Center(

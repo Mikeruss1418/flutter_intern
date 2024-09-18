@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mmccqq/mcqpage/ui/review.dart';
@@ -127,19 +129,24 @@ class _CheckingState extends State<Checking> {
                         : unattendedQuestions.length,
                 itemBuilder: (context, index) {
                   //for index of the question
+
                   int? qnId;
                   if (all) {
                     qnId = widget.randomelements[index]['id'];
                   } else if (attended) {
+                    log('for all :$qnId');
                     qnId = widget
                         .randomelements[widget.attemptedQuestions[index]]['id'];
+                    log('for attended: $qnId');
                   } else {
                     qnId =
                         widget.randomelements[unattendedQuestions[index]]['id'];
+                    log('for unATTended: $qnId');
                   }
                   final question = widget.randomelements.indexWhere(
                     (element) => element['id'] == qnId,
                   );
+                  log('Question: $question');
                   //same parameters send as of review screen
                   //if needed
                   // final body = question['body'];
