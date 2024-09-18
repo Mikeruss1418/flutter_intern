@@ -42,6 +42,8 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
   int loadbatch = 20; //each batch size
   int currentmaxindex = 20; // intial load
   bool isLoading = false; //checking if the there is loading needed
+
+
   @override
   void initState() {
     super.initState();
@@ -62,12 +64,12 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
             setnumber: widget.setnumber));
         timer.cancel();
         countdown.value = 0; //current value stored in the countdown here.
-
         final bool timesup = await showdialogbox.timefinished(
                 context,
                 selectedanswer.keys.length,
                 (widget.randomelements.length - selectedanswer.keys.length)) ??
             false;
+            
         if (context.mounted && timesup) {
           Navigator.pop(context);
         }
