@@ -8,6 +8,7 @@ import 'package:movie_app/domain/use_cases/get_now_play.dart';
 import 'package:movie_app/domain/use_cases/get_popular.dart';
 import 'package:movie_app/domain/use_cases/get_trend.dart';
 import 'package:movie_app/domain/use_cases/get_upcoming.dart';
+import 'package:movie_app/presentation/blocs/language/language_bloc.dart';
 import 'package:movie_app/presentation/blocs/movie_backdrop/movie_backdrop_bloc.dart';
 import 'package:movie_app/presentation/blocs/movie_carousel/movie_carousel_bloc.dart';
 import 'package:movie_app/presentation/blocs/movie_tab/movie_tab_bloc.dart';
@@ -24,12 +25,16 @@ void init() {
   getit.registerLazySingleton<GetUpcoming>(() => GetUpcoming(getit()));
   getit.registerLazySingleton<GetPopular>(() => GetPopular(getit()));
   getit.registerLazySingleton<GetNowPlay>(() => GetNowPlay(getit()));
-  getit.registerFactory(() => MovieCarouselBloc(
+  getit.registerFactory<MovieCarouselBloc>(() => MovieCarouselBloc(
       getit(), getit())); //for get trend and for movieBackdropbloc
-  getit.registerFactory(() => MovieBackdropBloc(getit));
+  getit.registerFactory<MovieBackdropBloc>(() => MovieBackdropBloc());
   //to get the same instance of the bloc use this code
   // getit.registerLazySingleton(() => MovieBackdropBloc(getit));
-  getit.registerFactory(
-    () => MovieTabBloc(getNowPlay: getit(),getPopular: getit(),getUpcoming: getit()),
+  getit.registerFactory<MovieTabBloc>(
+    () => MovieTabBloc(
+        getNowPlay: getit(), getPopular: getit(), getUpcoming: getit()),
+  );
+  getit.registerFactory<LanguageBloc>(
+    () => LanguageBloc(),
   );
 }

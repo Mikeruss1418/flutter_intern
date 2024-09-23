@@ -4,6 +4,7 @@ import 'package:movie_app/dep_inj/get_it.dart';
 import 'package:movie_app/presentation/blocs/movie_backdrop/movie_backdrop_bloc.dart';
 import 'package:movie_app/presentation/blocs/movie_carousel/movie_carousel_bloc.dart';
 import 'package:movie_app/presentation/blocs/movie_tab/movie_tab_bloc.dart';
+import 'package:movie_app/presentation/journeys/drawer/naviagtion_drawer.dart';
 import 'package:movie_app/presentation/journeys/home/movie_carousel/movie_carousel_widget.dart';
 import 'package:movie_app/presentation/journeys/home/movie_tab/movie_tab.dart';
 
@@ -53,12 +54,14 @@ class _HomeState extends State<Home> {
           create: (context) => movieTabBloc,
         )
       ],
-      child: BlocBuilder<MovieCarouselBloc, MovieCarouselState>(
-        builder: (context, state) {
-          if (state.status == CarouselStatus.success) {
-            return Scaffold(
-              body: SafeArea(
-                child: Stack(
+      child: SafeArea(
+        child: Scaffold(
+          drawer:NavDrawer(),
+          body: BlocBuilder<MovieCarouselBloc, MovieCarouselState>(
+            bloc: movieCarouselBloc,
+            builder: (context, state) {
+              if (state.status == CarouselStatus.success) {
+                return Stack(
                   fit: StackFit.expand, //allows to all availabel space
                   children: [
                     FractionallySizedBox(
@@ -72,12 +75,12 @@ class _HomeState extends State<Home> {
                         alignment: Alignment.bottomCenter,
                         child: MovieTab())
                   ],
-                ),
-              ),
-            );
-          }
-          return const SizedBox();
-        },
+                );
+              }
+              return const SizedBox();
+            },
+          ),
+        ),
       ),
     );
   }

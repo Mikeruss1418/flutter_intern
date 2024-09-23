@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/common/extensions/string_extension.dart';
+import 'package:movie_app/presentation/app_localization.dart';
 import 'package:movie_app/presentation/themes/app_colors.dart';
 import 'package:movie_app/presentation/themes/theme_text.dart';
 
@@ -34,7 +35,7 @@ class TabTitle extends StatelessWidget {
           ),
         ),
         child: Text(
-          title,
+         (title).t(context),
           style: isSelected
               ? Theme.of(context).textTheme.royalBlueSubtitle1
               : Theme.of(context).textTheme.titleMedium,

@@ -36,6 +36,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
+  flutter_localizations:
+    sdk: flutter
   flutter_screenutil: ^5.9.3
   flutter_svg: ^2.0.10+1
   get_it: ^8.0.0
@@ -61,6 +63,7 @@ flutter:
     - assets/icons/
     - assets/pngs/
     - assets/svgs/
+    - assets/lang/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
   # For details regarding adding assets from package dependencies, see
