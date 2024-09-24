@@ -5,6 +5,7 @@ import 'package:movie_app/presentation/blocs/movie_backdrop/movie_backdrop_bloc.
 import 'package:movie_app/presentation/blocs/movie_carousel/movie_carousel_bloc.dart';
 import 'package:movie_app/presentation/blocs/movie_tab/movie_tab_bloc.dart';
 import 'package:movie_app/presentation/journeys/drawer/naviagtion_drawer.dart';
+import 'package:movie_app/presentation/widgets/app_error_widgets.dart';
 import 'package:movie_app/presentation/journeys/home/movie_carousel/movie_carousel_widget.dart';
 import 'package:movie_app/presentation/journeys/home/movie_tab/movie_tab.dart';
 
@@ -56,7 +57,7 @@ class _HomeState extends State<Home> {
       ],
       child: SafeArea(
         child: Scaffold(
-          drawer:NavDrawer(),
+          drawer: const NavDrawer(),
           body: BlocBuilder<MovieCarouselBloc, MovieCarouselState>(
             bloc: movieCarouselBloc,
             builder: (context, state) {
@@ -75,6 +76,15 @@ class _HomeState extends State<Home> {
                         alignment: Alignment.bottomCenter,
                         child: MovieTab())
                   ],
+                );
+              } else if (state.status == CarouselStatus.error) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ApperrorWidgets(
+                    onPressed: () =>
+                        movieCarouselBloc.add(const CarouselLoadEvent()),
+                    appErrorType: state.errorType!,
+                  ),
                 );
               }
               return const SizedBox();

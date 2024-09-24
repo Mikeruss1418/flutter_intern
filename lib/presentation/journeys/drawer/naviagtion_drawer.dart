@@ -7,7 +7,9 @@ import 'package:movie_app/common/extensions/string_extension.dart';
 import 'package:movie_app/presentation/blocs/language/language_bloc.dart';
 import 'package:movie_app/presentation/journeys/drawer/navigation_expanded.dart';
 import 'package:movie_app/presentation/journeys/drawer/navigation_listitem.dart';
+import 'package:movie_app/presentation/widgets/app_dialog.dart';
 import 'package:movie_app/presentation/widgets/logo.dart';
+import 'package:wiredash/wiredash.dart';
 
 import '../../../common/constants/size_constants.dart';
 
@@ -43,10 +45,11 @@ class NavDrawer extends StatelessWidget {
           NavigationListitem(
               title: (Translation.favoriteMovies).t(context), onPressed: () {}),
           NavigationExpanded(
-              title: (Translation.language).t(context),
-              onPressed: () {
+              // title: (Translation.language).t(context),
+              title: 'Languages',
+              onPressed: (index) {
                 BlocProvider.of<LanguageBloc>(context)
-                    .add(ToggleLangEvent(Language.languages[1]));
+                    .add(ToggleLangEvent(Language.languages[index]));
               },
               children: Language.languages
                   .map(
@@ -54,11 +57,37 @@ class NavDrawer extends StatelessWidget {
                   )
                   .toList()),
           NavigationListitem(
-              title: (Translation.feedback).t(context), onPressed: () {}),
+              title: (Translation.feedback).t(context),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Wiredash.of(context).show(inheritMaterialTheme: true);
+              }),
           NavigationListitem(
-              title: (Translation.about).t(context), onPressed: () {}),
+              title: (Translation.about).t(context),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _dialog(context);
+              }),
         ],
       ),
+    );
+  }
+
+  void _dialog(BuildContext context) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return AboutUsDialog(
+          title: Translation.about,
+          description: Translation.aboutDescription,
+          buttontxt: Translation.okay,
+          imagelogo: Image.asset(
+            'assets/pngs/tmdb_logo.png',
+            height: Sizes.dimen_100,
+          ),
+        );
+      },
     );
   }
 }

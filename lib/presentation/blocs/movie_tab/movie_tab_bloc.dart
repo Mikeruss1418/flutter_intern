@@ -17,7 +17,10 @@ class MovieTabBloc extends Bloc<MovieTabEvent, MovieTabState> {
   final GetPopular getPopular;
   final GetNowPlay getNowPlay;
   final GetUpcoming getUpcoming;
-  MovieTabBloc({required this.getPopular,required this.getNowPlay,required this.getUpcoming})
+  MovieTabBloc(
+      {required this.getPopular,
+      required this.getNowPlay,
+      required this.getUpcoming})
       : super(MovieTabState.initial()) {
     on<MovieTabChangedEvent>(movieTabChangedEvent);
   }
@@ -36,9 +39,12 @@ class MovieTabBloc extends Bloc<MovieTabEvent, MovieTabState> {
         moviesEither = await getUpcoming(NoParams());
         break;
     }
+    // emit(state.copyWith(status: MovieTabStatus.success, movies: []));
     moviesEither!.fold(
       (l) => emit(state.copyWith(
-          status: MovieTabStatus.fail, currentindex: event.currentindex)),
+          status: MovieTabStatus.fail,
+          currentindex: event.currentindex,
+          appErrorType: l.apperrortype)),
       (movies) {
         return emit(state.copyWith(
             status: MovieTabStatus.success,

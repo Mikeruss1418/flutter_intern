@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/common/constants/size_constants.dart';
+import 'package:movie_app/common/extensions/string_extension.dart';
 import 'package:movie_app/presentation/blocs/movie_tab/movie_tab_bloc.dart';
+import 'package:movie_app/presentation/journeys/drawer/naviagtion_drawer.dart';
 import 'package:movie_app/presentation/journeys/home/movie_tab/movie_listview.dart';
 import 'package:movie_app/presentation/journeys/home/movie_tab/movie_tabconstant.dart';
 import 'package:movie_app/presentation/journeys/home/movie_tab/tab_title.dart';
+import 'package:movie_app/presentation/widgets/app_error_widgets.dart';
 import 'package:movie_app/presentation/widgets/movie_app_bar.dart';
+
+import '../../../../common/constants/translation.dart';
 
 class MovieTab extends StatefulWidget {
   const MovieTab({super.key});
@@ -28,6 +33,7 @@ class _MovieTabState extends State<MovieTab>
 
   @override
   void dispose() {
+    movietabbloc.close();
     super.dispose();
   }
 
@@ -57,8 +63,19 @@ class _MovieTabState extends State<MovieTab>
                 ],
               ),
               if (state.status == MovieTabStatus.success)
+                state.movies!.isEmpty
+                    ? Expanded(
+                        child: Center(
+                            child: Text(Translation.noMovies.t(context))))
+                    : Expanded(
+                        child: MovieListview(movies: state.movies!),
+                      )
+              else if (state.status == MovieTabStatus.fail)
                 Expanded(
-                  child: MovieListview(movies: state.movies!),
+                  child: ApperrorWidgets(
+                      appErrorType: state.appErrorType!,
+                      onPressed: () => movietabbloc.add(
+                          MovieTabChangedEvent(currentindex: currentindex))),
                 )
             ],
           ),
