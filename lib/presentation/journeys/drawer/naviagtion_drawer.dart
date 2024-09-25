@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/common/constants/language.dart';
-import 'package:movie_app/common/constants/translation.dart';
+import 'package:movie_app/common/extensions/size_extension.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/common/extensions/string_extension.dart';
-import 'package:movie_app/presentation/blocs/language/language_bloc.dart';
-import 'package:movie_app/presentation/journeys/drawer/navigation_expanded.dart';
-import 'package:movie_app/presentation/journeys/drawer/navigation_listitem.dart';
-import 'package:movie_app/presentation/widgets/app_dialog.dart';
-import 'package:movie_app/presentation/widgets/logo.dart';
 import 'package:wiredash/wiredash.dart';
 
+import '../../../common/constants/language.dart';
 import '../../../common/constants/size_constants.dart';
+import '../../../common/constants/translation.dart';
+import '../../blocs/language/language_bloc.dart';
+import '../../widgets/app_dialog.dart';
+import '../../widgets/logo.dart';
+import 'navigation_expanded.dart';
+import 'navigation_listitem.dart';
 
 class NavDrawer extends StatelessWidget {
   const NavDrawer({super.key});

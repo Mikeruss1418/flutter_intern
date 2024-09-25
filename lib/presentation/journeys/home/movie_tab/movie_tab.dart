@@ -4,12 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/common/constants/size_constants.dart';
 import 'package:movie_app/common/extensions/string_extension.dart';
 import 'package:movie_app/presentation/blocs/movie_tab/movie_tab_bloc.dart';
-import 'package:movie_app/presentation/journeys/drawer/naviagtion_drawer.dart';
 import 'package:movie_app/presentation/journeys/home/movie_tab/movie_listview.dart';
 import 'package:movie_app/presentation/journeys/home/movie_tab/movie_tabconstant.dart';
 import 'package:movie_app/presentation/journeys/home/movie_tab/tab_title.dart';
 import 'package:movie_app/presentation/widgets/app_error_widgets.dart';
-import 'package:movie_app/presentation/widgets/movie_app_bar.dart';
 
 import '../../../../common/constants/translation.dart';
 

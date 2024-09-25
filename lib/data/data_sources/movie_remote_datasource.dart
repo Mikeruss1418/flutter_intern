@@ -1,4 +1,6 @@
 import 'package:movie_app/data/core/apiclient.dart';
+import 'package:movie_app/data/models/movie_detail_model.dart';
+
 import 'package:movie_app/data/models/movies_model.dart';
 import 'package:movie_app/data/models/movies_result_model.dart';
 import "dart:developer";
@@ -8,6 +10,7 @@ abstract class MovieRemoteDatasource {
   Future<List<MoviesModel>> popular();
   Future<List<MoviesModel>> nowplaying();
   Future<List<MoviesModel>> upcoming();
+  Future<MovieDetailModel>  moviedetail(int id);
 }
 
 class MovieremoteDatasourceIml extends MovieRemoteDatasource {
@@ -45,5 +48,13 @@ class MovieremoteDatasourceIml extends MovieRemoteDatasource {
     final movies = MoviesresultModel.fromJson(response).movies;
     log('$movies');
     return movies!;
+  }
+  
+  @override
+  Future<MovieDetailModel> moviedetail(int id)async {
+    final response = await _client.get('movie/$id');
+    final movie = MovieDetailModel.fromJson(response);
+    log('$movie');
+    return movie;
   }
 }

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/common/extensions/string_extension.dart';
 import 'package:movie_app/data/core/api_constants.dart';
+import 'package:movie_app/presentation/journeys/movie_detail/movie_detail_args.dart';
+import 'package:movie_app/presentation/journeys/movie_detail/movie_detail_screen.dart';
 
 import '../../../../common/constants/size_constants.dart';
 
@@ -19,18 +21,25 @@ class MovieTabCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){},
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  MovieDetailScrren(movieDetailArgs: MovieDetailArgs(movieId)),
+            ));
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
-              child: ClipRRect(
-            borderRadius: BorderRadius.circular(Sizes.dimen_16.w),
-            child: CachedNetworkImage(
-              imageUrl: '${ApiConstants.BASE_IMAGE_URL}$posterpath',
-              fit: BoxFit.cover,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(Sizes.dimen_16.w),
+              child: CachedNetworkImage(
+                imageUrl: '${ApiConstants.BASE_IMAGE_URL}$posterpath',
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
           ),
           Padding(
             padding: EdgeInsets.only(top: Sizes.dimen_4.h),
@@ -41,7 +50,6 @@ class MovieTabCard extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
-
         ],
       ),
     );

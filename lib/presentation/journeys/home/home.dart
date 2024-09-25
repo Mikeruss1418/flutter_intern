@@ -55,10 +55,10 @@ class _HomeState extends State<Home> {
           create: (context) => movieTabBloc,
         )
       ],
-      child: SafeArea(
-        child: Scaffold(
-          drawer: const NavDrawer(),
-          body: BlocBuilder<MovieCarouselBloc, MovieCarouselState>(
+      child: Scaffold(
+        drawer: const NavDrawer(),
+        body: SafeArea(
+          child: BlocBuilder<MovieCarouselBloc, MovieCarouselState>(
             bloc: movieCarouselBloc,
             builder: (context, state) {
               if (state.status == CarouselStatus.success) {
