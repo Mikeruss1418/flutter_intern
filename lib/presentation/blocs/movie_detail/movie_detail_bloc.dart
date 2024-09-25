@@ -7,13 +7,15 @@ import 'package:movie_app/domain/entities/app_error.dart';
 import 'package:movie_app/domain/entities/movie_detail_entity.dart';
 import 'package:movie_app/domain/entities/movie_params.dart';
 import 'package:movie_app/domain/use_cases/get_movie_details.dart';
+import 'package:movie_app/presentation/blocs/cast/cast_bloc.dart';
 
 part 'movie_detail_event.dart';
 part 'movie_detail_state.dart';
 
 class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
   final GetMovieDetails movieDetails;
-  MovieDetailBloc({required this.movieDetails})
+  final CastBloc castBloc;
+  MovieDetailBloc({required this.movieDetails, required this.castBloc})
       : super(MovieDetailState.initial()) {
     on<MovieSelectedDetailEvent>(movieSelectedDetailEvent);
   }
@@ -23,10 +25,13 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
     final Either<AppError, MovieDetailEntity> eitherresponse =
         await movieDetails(MovieParams(event.movieId));
     eitherresponse.fold(
-      (l) => emit(state.copyWith(status: MovieDetailStatus.fail)),
+      (l) => emit(state.copyWith(
+          status: MovieDetailStatus.fail, errorType: l.apperrortype)),
       (movie) {
-        return emit(state.copyWith(status: MovieDetailStatus.success,moviedetail: movie));
+        return emit(state.copyWith(
+            status: MovieDetailStatus.success, moviedetail: movie));
       },
     );
+    castBloc.add(CastLoadEvent(movieId: event.movieId));
   }
 }

@@ -78,7 +78,7 @@ class _HomeState extends State<Home> {
                   ],
                 );
               } else if (state.status == CarouselStatus.error) {
-                return Padding(
+                return  Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ApperrorWidgets(
                     onPressed: () =>

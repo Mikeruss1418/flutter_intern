@@ -31,6 +31,7 @@ class Poster extends StatelessWidget {
           child: CachedNetworkImage(
             imageUrl: '${ApiConstants.BASE_IMAGE_URL}${movie.posterpath}',
             width: ScreenUtil().screenWidth,
+            // height: MediaQuery.of(context).size.height / 1.6,
           ),
         ),
         Positioned(
@@ -54,10 +55,10 @@ class Poster extends StatelessWidget {
           ),
         ),
         Positioned(
-          left: Sizes.dimen_16.w,
-          right: Sizes.dimen_16.w,
-          top:ScreenUtil().statusBarHeight + Sizes.dimen_4.h,
-          child: MovieDetailAppBar())
+            left: Sizes.dimen_16.w,
+            right: Sizes.dimen_16.w,
+            top: ScreenUtil().statusBarHeight + Sizes.dimen_4.h,
+            child: MovieDetailAppBar())
       ],
     );
   }

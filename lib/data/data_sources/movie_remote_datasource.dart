@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:movie_app/data/core/apiclient.dart';
+import 'package:movie_app/data/models/castcrew_model.dart';
 import 'package:movie_app/data/models/movie_detail_model.dart';
 
 import 'package:movie_app/data/models/movies_model.dart';
@@ -10,7 +13,8 @@ abstract class MovieRemoteDatasource {
   Future<List<MoviesModel>> popular();
   Future<List<MoviesModel>> nowplaying();
   Future<List<MoviesModel>> upcoming();
-  Future<MovieDetailModel>  moviedetail(int id);
+  Future<MovieDetailModel> moviedetail(int id);
+  Future<List<CastModel>> castdetail(int id);
 }
 
 class MovieremoteDatasourceIml extends MovieRemoteDatasource {
@@ -49,12 +53,20 @@ class MovieremoteDatasourceIml extends MovieRemoteDatasource {
     log('$movies');
     return movies!;
   }
-  
+
   @override
-  Future<MovieDetailModel> moviedetail(int id)async {
+  Future<MovieDetailModel> moviedetail(int id) async {
     final response = await _client.get('movie/$id');
     final movie = MovieDetailModel.fromJson(response);
     log('$movie');
     return movie;
+  }
+
+  @override
+  Future<List<CastModel>> castdetail(int id) async {
+    final response = await _client.get('movie/$id/credits');
+    final cast = CastCrewResultModel.fromJson(response).cast;
+    log('$cast');
+    return cast!;
   }
 }
