@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/common/constants/translation.dart';
 import 'package:movie_app/common/extensions/size_extension.dart';
 import 'package:movie_app/common/extensions/string_extension.dart';
@@ -78,7 +79,10 @@ class _MovieDetailScrrenState extends State<MovieDetailScrren> {
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ),
-                      CastWidget()
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      const CastWidget()
                     ],
                   ),
                 );

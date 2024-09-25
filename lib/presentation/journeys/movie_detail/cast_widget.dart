@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/common/constants/size_constants.dart';
 import 'package:movie_app/common/extensions/size_extension.dart';
+import 'package:movie_app/common/extensions/string_extension.dart';
+import 'package:movie_app/presentation/journeys/drawer/naviagtion_drawer.dart';
 import 'package:movie_app/presentation/themes/app_colors.dart';
 
 import '../../../data/core/api_constants.dart';
@@ -51,7 +53,7 @@ class CastWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      castEntity!.name,
+                      castEntity!.name.about20(),
                       overflow: TextOverflow.fade,
                       maxLines: 1,
                       style: const TextStyle(color: Colors.white),
@@ -61,7 +63,7 @@ class CastWidget extends StatelessWidget {
                       style: TextStyle(color: AppColors.violet),
                     ),
                     Text(
-                      castEntity.character,
+                      castEntity.character.about20(),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: const TextStyle(color: Colors.white),
