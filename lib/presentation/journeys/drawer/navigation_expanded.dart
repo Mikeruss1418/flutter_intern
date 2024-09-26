@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/presentation/journeys/drawer/navigation_listitem.dart';
 
 import '../../../common/constants/size_constants.dart';
 

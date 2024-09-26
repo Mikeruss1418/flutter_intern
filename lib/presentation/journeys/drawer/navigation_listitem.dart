@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/common/constants/size_constants.dart';
 
 class NavigationListitem extends StatelessWidget {
   final String title;

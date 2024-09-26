@@ -6,17 +6,18 @@ import 'package:movie_app/common/extensions/size_extension.dart';
 import 'package:movie_app/common/extensions/string_extension.dart';
 import 'package:movie_app/dep_inj/get_it.dart';
 import 'package:movie_app/presentation/blocs/movie_detail/movie_detail_bloc.dart';
+import 'package:movie_app/presentation/blocs/video/video_bloc.dart';
 import 'package:movie_app/presentation/journeys/movie_detail/cast_widget.dart';
 import 'package:movie_app/presentation/journeys/movie_detail/movie_detail_args.dart';
 import 'package:movie_app/presentation/journeys/movie_detail/poster.dart';
+import 'package:movie_app/presentation/journeys/movie_detail/video_widget.dart';
 import 'package:movie_app/presentation/widgets/app_error_widgets.dart';
 
 import '../../../common/constants/size_constants.dart';
 import '../../blocs/cast/cast_bloc.dart';
 
 class MovieDetailScrren extends StatefulWidget {
-  const MovieDetailScrren({super.key, required this.movieDetailArgs})
-      : assert(movieDetailArgs != null, 'Arguments cannot be null');
+  const MovieDetailScrren({super.key, required this.movieDetailArgs});
   final MovieDetailArgs movieDetailArgs;
 
   @override
@@ -26,11 +27,13 @@ class MovieDetailScrren extends StatefulWidget {
 class _MovieDetailScrrenState extends State<MovieDetailScrren> {
   late MovieDetailBloc _movieDetailBloc;
   late CastBloc _castBloc;
+  late VideoBloc _videoBloc;
   @override
   void initState() {
     super.initState();
     _movieDetailBloc = getit<MovieDetailBloc>();
     _castBloc = _movieDetailBloc.castBloc;
+    _videoBloc = _movieDetailBloc.videoBloc;
     _movieDetailBloc
         .add(MovieSelectedDetailEvent(widget.movieDetailArgs.movieId));
   }
@@ -39,6 +42,7 @@ class _MovieDetailScrrenState extends State<MovieDetailScrren> {
   void dispose() {
     _movieDetailBloc.close();
     _castBloc.close();
+    _videoBloc.close();
     super.dispose();
   }
 
@@ -54,6 +58,7 @@ class _MovieDetailScrrenState extends State<MovieDetailScrren> {
             BlocProvider.value(
               value: _castBloc,
             ),
+            BlocProvider.value(value: _movieDetailBloc)
           ],
           child: BlocBuilder<MovieDetailBloc, MovieDetailState>(
             builder: (context, state) {
@@ -82,7 +87,10 @@ class _MovieDetailScrrenState extends State<MovieDetailScrren> {
                       SizedBox(
                         height: 10.h,
                       ),
-                      const CastWidget()
+                      const CastWidget(),
+                      VideoWidget(
+                        videoBloc: _videoBloc,
+                      )
                     ],
                   ),
                 );

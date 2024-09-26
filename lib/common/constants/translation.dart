@@ -1,6 +1,6 @@
 class Translation {
   Translation._();
-static const String favoriteMovies = 'favoriteMovies';
+  static const String favoriteMovies = 'favoriteMovies';
   static const String language = 'language';
   static const String feedback = 'feedback';
   static const String retry = 'retry';
@@ -28,5 +28,5 @@ static const String favoriteMovies = 'favoriteMovies';
   static const String enterTMDbUsername = 'enterTMDbUsername';
   static const String enterPassword = 'enterPassword';
   static const String guestSignIn = 'guestSignIn';
-
+  static const String morevideos = 'morevideos';
 }

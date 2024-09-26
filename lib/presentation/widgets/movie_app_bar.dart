@@ -11,7 +11,8 @@ class MovieAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: Sizes.dimen_16.w, right: Sizes.dimen_16.w),
-      child: Row(
+      child:
+       Row(
         children: [
           IconButton(
             onPressed: () {

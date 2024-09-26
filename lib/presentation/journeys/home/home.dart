@@ -57,12 +57,12 @@ class _HomeState extends State<Home> {
       ],
       child: Scaffold(
         drawer: const NavDrawer(),
-        body: SafeArea(
-          child: BlocBuilder<MovieCarouselBloc, MovieCarouselState>(
-            bloc: movieCarouselBloc,
-            builder: (context, state) {
-              if (state.status == CarouselStatus.success) {
-                return Stack(
+        body: BlocBuilder<MovieCarouselBloc, MovieCarouselState>(
+          bloc: movieCarouselBloc,
+          builder: (context, state) {
+            if (state.status == CarouselStatus.success) {
+              return SafeArea(
+                child: Stack(
                   fit: StackFit.expand, //allows to all availabel space
                   children: [
                     FractionallySizedBox(
@@ -76,20 +76,20 @@ class _HomeState extends State<Home> {
                         alignment: Alignment.bottomCenter,
                         child: MovieTab())
                   ],
-                );
-              } else if (state.status == CarouselStatus.error) {
-                return  Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ApperrorWidgets(
-                    onPressed: () =>
-                        movieCarouselBloc.add(const CarouselLoadEvent()),
-                    appErrorType: state.errorType!,
-                  ),
-                );
-              }
-              return const SizedBox();
-            },
-          ),
+                ),
+              );
+            } else if (state.status == CarouselStatus.error) {
+              return  Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ApperrorWidgets(
+                  onPressed: () =>
+                      movieCarouselBloc.add(const CarouselLoadEvent()),
+                  appErrorType: state.errorType!,
+                ),
+              );
+            }
+            return const SizedBox();
+          },
         ),
       ),
     );

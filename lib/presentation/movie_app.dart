@@ -6,7 +6,6 @@ import 'package:movie_app/dep_inj/get_it.dart';
 import 'package:movie_app/presentation/blocs/language/language_bloc.dart';
 import 'package:movie_app/presentation/journeys/home/home.dart';
 import 'package:movie_app/presentation/wiredash_app.dart';
-import 'package:wiredash/wiredash.dart';
 
 import '../common/constants/language.dart';
 import 'app_localization.dart';
@@ -15,7 +14,7 @@ import 'themes/theme_text.dart';
 
 class MyApp extends StatefulWidget {
   // final navkey = GlobalKey<NavigatorState>();
-   const MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -48,8 +47,7 @@ class _MyAppState extends State<MyApp> {
           child: BlocBuilder<LanguageBloc, LanguageState>(
             builder: (context, state) {
               if (state.status == LanguageStatus.toggled) {
-                return 
-                WiredashApp(
+                return WiredashApp(
                   languagecode: state.locale!.languageCode,
                   child: MaterialApp(
                     title: 'Movie App',
@@ -60,7 +58,10 @@ class _MyAppState extends State<MyApp> {
                       scaffoldBackgroundColor: AppColors.vulcan,
                       visualDensity: VisualDensity.adaptivePlatformDensity,
                       textTheme: ThemeText.getTextTheme(),
-                      appBarTheme: const AppBarTheme(elevation: 0),
+                      appBarTheme: const AppBarTheme(
+                          elevation: 0,
+                          backgroundColor: AppColors.vulcan,
+                          iconTheme: IconThemeData(color: Colors.white)),
                     ),
                     localizationsDelegates: const [
                       AppLocalizations.delegate,
@@ -74,13 +75,13 @@ class _MyAppState extends State<MyApp> {
                         .toList(),
                     locale: state.locale,
                     //  Locale(Language.languages[0].code),
-                  
+
                     home: const Home(),
                     // darkTheme: darkmode,
                   ),
                 );
               }
-              return SizedBox();
+              return const SizedBox();
             },
           ),
         );

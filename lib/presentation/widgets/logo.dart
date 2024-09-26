@@ -4,8 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class Logo extends StatelessWidget {
   final double height;
   const Logo({super.key, required this.height})
-      : assert(height != null, 'Height ust not be null'),
-        assert(height > 0, 'height should be greater than 0');
+      : assert(height > 0, 'height should be greater than 0');
 
   @override
   Widget build(BuildContext context) {

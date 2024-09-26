@@ -5,17 +5,6 @@ import 'package:movie_app/domain/entities/video_entity.dart';
 import 'package:movie_app/domain/repos/movie_repos.dart';
 import 'package:movie_app/domain/use_cases/usecase.dart';
 
-/**
- * class GetCast extends UseCase<List<CastEntity>, MovieParams> {
-  final MovieRepos repos;
-
-  GetCast(this.repos);
-  @override
-  Future<Either<AppError, List<CastEntity>>> call(MovieParams params) async {
-    return await repos.getcastcrew(params.movieId);
-  }
-}
- */
 
 class GetVideos extends UseCase<List<VideoEntity>, MovieParams> {
   final MovieRepos repos;
@@ -27,3 +16,4 @@ class GetVideos extends UseCase<List<VideoEntity>, MovieParams> {
     return await repos.getvideo(params.movieId);
   }
 }
+

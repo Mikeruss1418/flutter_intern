@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/common/extensions/string_extension.dart';
-import 'package:movie_app/presentation/app_localization.dart';
 import 'package:movie_app/presentation/themes/app_colors.dart';
 import 'package:movie_app/presentation/themes/theme_text.dart';
 
@@ -15,10 +14,7 @@ class TabTitle extends StatelessWidget {
       {super.key,
       required this.title,
       required this.onTap,
-      this.isSelected = false})
-      : assert(title != null, 'title should not be null'),
-        assert(onTap != null, 'onTap should not be null'),
-        assert(isSelected != null, 'isSelected should not be null');
+      this.isSelected = false});
 
   @override
   Widget build(BuildContext context) {

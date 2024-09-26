@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/common/constants/size_constants.dart';
 import 'package:movie_app/common/extensions/size_extension.dart';
 import 'package:movie_app/common/extensions/string_extension.dart';
-import 'package:movie_app/presentation/journeys/drawer/naviagtion_drawer.dart';
 import 'package:movie_app/presentation/themes/app_colors.dart';
 
 import '../../../data/core/api_constants.dart';
@@ -58,7 +57,7 @@ class CastWidget extends StatelessWidget {
                       maxLines: 1,
                       style: const TextStyle(color: Colors.white),
                     ),
-                    Text(
+                    const Text(
                       'AS',
                       style: TextStyle(color: AppColors.violet),
                     ),
