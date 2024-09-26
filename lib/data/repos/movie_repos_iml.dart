@@ -5,9 +5,8 @@ import 'package:movie_app/data/data_sources/movie_remote_datasource.dart';
 import 'package:movie_app/data/models/castcrew_model.dart';
 import 'package:movie_app/data/models/movie_detail_model.dart';
 import 'package:movie_app/data/models/movies_model.dart';
+import 'package:movie_app/data/models/video_result_model.dart';
 import 'package:movie_app/domain/entities/app_error.dart';
-import 'package:movie_app/domain/entities/movie_entity.dart';
-import 'package:movie_app/domain/entities/video_entity.dart';
 import 'package:movie_app/domain/repos/movie_repos.dart';
 
 class MovieReposIml extends MovieRepos {
@@ -29,7 +28,7 @@ class MovieReposIml extends MovieRepos {
   }
 
   @override
-  Future<Either<AppError, List<MovieEntity>>> nowplaying() async {
+  Future<Either<AppError, List<MoviesModel>>> nowplaying() async {
     try {
       final movies = await remotedatasource.nowplaying();
       return Right(movies);
@@ -42,7 +41,7 @@ class MovieReposIml extends MovieRepos {
   }
 
   @override
-  Future<Either<AppError, List<MovieEntity>>> popular() async {
+  Future<Either<AppError, List<MoviesModel>>> popular() async {
     try {
       final movies = await remotedatasource.popular();
       return Right(movies);
@@ -55,7 +54,7 @@ class MovieReposIml extends MovieRepos {
   }
 
   @override
-  Future<Either<AppError, List<MovieEntity>>> upcoming() async {
+  Future<Either<AppError, List<MoviesModel>>> upcoming() async {
     try {
       final movies = await remotedatasource.upcoming();
       return Right(movies);
@@ -93,11 +92,23 @@ class MovieReposIml extends MovieRepos {
   }
 
   @override
-  Future<Either<AppError, List<VideoEntity>>> getvideo(int id) async {
+  Future<Either<AppError, List<VideoModel>>> getvideo(int id) async {
     try {
       final videos = await remotedatasource.videos(id);
       return Right(videos);
     } on SocketException {
+      return const Left(AppError(AppErrorType.checknetwork));
+    } on Exception {
+      return const Left(AppError(AppErrorType.apicall));
+    }
+  }
+  
+  @override
+  Future<Either<AppError, List<MoviesModel>>> getsearch(String searchtxt) async {
+    try{
+      final movies = await remotedatasource.search(searchtxt);
+      return Right(movies);
+    }on SocketException {
       return const Left(AppError(AppErrorType.checknetwork));
     } on Exception {
       return const Left(AppError(AppErrorType.apicall));

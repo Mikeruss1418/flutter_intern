@@ -17,3 +17,4 @@ class CastState extends Equatable {
   @override
   List<Object> get props => [status, errorType ?? '',casts ?? []];
 }
+  

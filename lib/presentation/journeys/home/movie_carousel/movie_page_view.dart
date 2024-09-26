@@ -56,7 +56,7 @@ class _MoviePageViewState extends State<MoviePageView> {
         itemCount: widget.movies.length,
         onPageChanged: (value) {
           BlocProvider.of<MovieBackdropBloc>(context)
-              .add(MovieBackdropChangedEvent(widget.movies[value]));
+              .add(MovieBackdropChangedEvent(movie: widget.movies[value]));
         },
       ),
     );

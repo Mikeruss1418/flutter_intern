@@ -25,8 +25,8 @@ class MovieCarouselBloc extends Bloc<MovieCarouselEvent, MovieCarouselState> {
     moviesEither.fold(
       (l) => emit(state.copyWith(status: CarouselStatus.error,errorType: l.apperrortype)),
       (movies) {
-        movieBackdropBloc
-            .add(MovieBackdropChangedEvent(movies[event.defaultindex]));
+        movieBackdropBloc.
+            add(MovieBackdropChangedEvent(movie: movies[event.defaultindex]));
         return emit(state.copyWith(
             status: CarouselStatus.success,
             movies: movies, //current if on right

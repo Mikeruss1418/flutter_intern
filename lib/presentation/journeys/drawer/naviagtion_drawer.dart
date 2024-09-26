@@ -50,7 +50,7 @@ class NavDrawer extends StatelessWidget {
               title: 'Languages',
               onPressed: (index) {
                 BlocProvider.of<LanguageBloc>(context)
-                    .add(ToggleLangEvent(Language.languages[index]));
+                    .add(ToggleLangEvent(language: Language.languages[index]));
               },
               children: Language.languages
                   .map(

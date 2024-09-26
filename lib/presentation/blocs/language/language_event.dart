@@ -9,12 +9,11 @@ sealed class LanguageEvent extends Equatable {
 
 class ToggleLangEvent extends LanguageEvent {
   final LangEntity language;
+
+  const ToggleLangEvent({required this.language});
   // final int currentindex;
 
-  const ToggleLangEvent(
-    this.language,
-    // this.currentindex
-    );
+  
   @override
   List<Object> get props => [language.code];
 }

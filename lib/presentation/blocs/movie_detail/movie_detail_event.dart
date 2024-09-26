@@ -10,7 +10,9 @@ sealed class MovieDetailEvent extends Equatable {
 class MovieSelectedDetailEvent extends MovieDetailEvent {
   final int movieId;
 
-  const MovieSelectedDetailEvent(this.movieId);
+  MovieSelectedDetailEvent({required this.movieId});
+
+  
   @override
   List<Object> get props => [movieId];
 }

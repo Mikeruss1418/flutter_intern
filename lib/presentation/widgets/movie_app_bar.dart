@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/common/constants/size_constants.dart';
+import 'package:movie_app/presentation/blocs/search/search_bloc.dart';
+import 'package:movie_app/presentation/journeys/search/customsearch.dart';
 import 'package:movie_app/presentation/widgets/logo.dart';
 
 class MovieAppBar extends StatelessWidget {
@@ -11,12 +14,12 @@ class MovieAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: Sizes.dimen_16.w, right: Sizes.dimen_16.w),
-      child:
-       Row(
+      child: Row(
         children: [
           IconButton(
             onPressed: () {
-              Scaffold.of(context).openDrawer();//used to open the drawer beacuse of custom drawer
+              Scaffold.of(context)
+                  .openDrawer(); //used to open the drawer beacuse of custom drawer
             },
             icon: SvgPicture.asset(
               'assets/svgs/menu.svg',
@@ -27,7 +30,12 @@ class MovieAppBar extends StatelessWidget {
             child: Logo(height: Sizes.dimen_24.h),
           ),
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                showSearch(
+                    context: context,
+                    delegate: CustomSearchDelegate(
+                        BlocProvider.of<SearchBloc>(context)));
+              },
               icon: Icon(
                 Icons.search,
                 color: Colors.white,

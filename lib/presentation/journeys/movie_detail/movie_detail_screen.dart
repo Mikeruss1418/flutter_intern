@@ -35,7 +35,7 @@ class _MovieDetailScrrenState extends State<MovieDetailScrren> {
     _castBloc = _movieDetailBloc.castBloc;
     _videoBloc = _movieDetailBloc.videoBloc;
     _movieDetailBloc
-        .add(MovieSelectedDetailEvent(widget.movieDetailArgs.movieId));
+        .add(MovieSelectedDetailEvent(movieId:widget.movieDetailArgs.movieId));
   }
 
   @override
@@ -98,7 +98,7 @@ class _MovieDetailScrrenState extends State<MovieDetailScrren> {
                 return ApperrorWidgets(
                   appErrorType: state.errorType!,
                   onPressed: () => _movieDetailBloc.add(
-                      MovieSelectedDetailEvent(widget.movieDetailArgs.movieId)),
+                      MovieSelectedDetailEvent(movieId:widget.movieDetailArgs.movieId)),
                 );
               }
               return const SizedBox.shrink();

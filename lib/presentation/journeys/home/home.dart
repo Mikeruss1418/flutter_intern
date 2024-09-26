@@ -4,6 +4,7 @@ import 'package:movie_app/dep_inj/get_it.dart';
 import 'package:movie_app/presentation/blocs/movie_backdrop/movie_backdrop_bloc.dart';
 import 'package:movie_app/presentation/blocs/movie_carousel/movie_carousel_bloc.dart';
 import 'package:movie_app/presentation/blocs/movie_tab/movie_tab_bloc.dart';
+import 'package:movie_app/presentation/blocs/search/search_bloc.dart';
 import 'package:movie_app/presentation/journeys/drawer/naviagtion_drawer.dart';
 import 'package:movie_app/presentation/widgets/app_error_widgets.dart';
 import 'package:movie_app/presentation/journeys/home/movie_carousel/movie_carousel_widget.dart';
@@ -20,6 +21,7 @@ class _HomeState extends State<Home> {
   late MovieCarouselBloc movieCarouselBloc;
   late MovieBackdropBloc movieBackdropBloc;
   late MovieTabBloc movieTabBloc;
+  late SearchBloc searchBloc;
   @override
   void initState() {
     super.initState();
@@ -30,15 +32,17 @@ class _HomeState extends State<Home> {
     // -take the instance of moviebackdropbloc from movie carouselbloc like this
     movieBackdropBloc = movieCarouselBloc.movieBackdropBloc;
     movieTabBloc = getit<MovieTabBloc>();
+    searchBloc = getit<SearchBloc>();
     movieCarouselBloc.add(const CarouselLoadEvent());
   }
 
   @override
   void dispose() {
+    super.dispose();
     movieCarouselBloc.close();
     movieBackdropBloc.close();
     movieTabBloc.close();
-    super.dispose();
+    searchBloc.close();
   }
 
   @override
@@ -53,7 +57,10 @@ class _HomeState extends State<Home> {
         ),
         BlocProvider<MovieTabBloc>(
           create: (context) => movieTabBloc,
-        )
+        ),
+        BlocProvider(
+          create: (context) => searchBloc,
+        ),
       ],
       child: Scaffold(
         drawer: const NavDrawer(),
@@ -79,7 +86,7 @@ class _HomeState extends State<Home> {
                 ),
               );
             } else if (state.status == CarouselStatus.error) {
-              return  Padding(
+              return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ApperrorWidgets(
                   onPressed: () =>

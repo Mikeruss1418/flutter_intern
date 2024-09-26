@@ -115,15 +115,21 @@ class _WatchTrailerScreenState extends State<WatchTrailerScreen> {
                     itemBuilder: (context, index) {
                       return Row(
                         children: [
-                          SizedBox(
-                            height: 150.h,
-                            width: 180.w,
-                            child: CachedNetworkImage(
-                                imageUrl: YoutubePlayer.getThumbnail(
-                                    videoId: videos[index].key)),
+                          GestureDetector(
+                            onTap: () {
+                              controller.load(videos[index].key);
+                              controller.play();
+                            },
+                            child: SizedBox(
+                              height: 150.h,
+                              width: 180.w,
+                              child: CachedNetworkImage(
+                                  imageUrl: YoutubePlayer.getThumbnail(
+                                      videoId: videos[index].key)),
+                            ),
                           ),
                           SizedBox(
-                            width: 10.w,
+                            width: 20.w,
                           ),
                           Expanded(
                             child: Text(

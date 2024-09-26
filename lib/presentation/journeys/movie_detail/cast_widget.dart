@@ -65,7 +65,7 @@ class CastWidget extends StatelessWidget {
                       castEntity.character.about20(),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
-                      style: const TextStyle(color: Colors.white),
+                      style: const TextStyle(color: AppColors.royalblue),
                     ),
                   ],
                 );
