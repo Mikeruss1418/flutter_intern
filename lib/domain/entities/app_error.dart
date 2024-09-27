@@ -9,5 +9,5 @@ class AppError extends Equatable {
   List<Object> get props => [apperrortype];
 }
 enum AppErrorType {
-  apicall, checknetwork
+  apicall, checknetwork, database
 }

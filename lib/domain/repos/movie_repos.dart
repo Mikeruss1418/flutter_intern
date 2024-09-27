@@ -5,15 +5,19 @@ import 'package:movie_app/domain/entities/movie_detail_entity.dart';
 import 'package:movie_app/domain/entities/movie_entity.dart';
 import 'package:movie_app/domain/entities/video_entity.dart';
 
-import '../entities/search_params.dart';
 
 abstract class MovieRepos {
-  Future<Either<AppError, List<MovieEntity>>> trending();
-  Future<Either<AppError, List<MovieEntity>>> popular();
-  Future<Either<AppError, List<MovieEntity>>> upcoming();
-  Future<Either<AppError, List<MovieEntity>>> nowplaying();
-  Future<Either<AppError, MovieDetailEntity>> getmoviedetail(int id);
-  Future<Either<AppError, List<CastEntity>>> getcastcrew(int id);
-  Future<Either<AppError, List<VideoEntity>>> getvideo(int id);
-  Future<Either<AppError, List<MovieEntity>>> getsearch(String searchtxt);
+  Future<Either<AppError, List<MovieEntity>>> getTrending();
+  Future<Either<AppError, List<MovieEntity>>> getPopular();
+  Future<Either<AppError, List<MovieEntity>>> getUpcoming();
+  Future<Either<AppError, List<MovieEntity>>> getNowPlaying();
+  Future<Either<AppError, MovieDetailEntity>> getMovieDetail(int id);
+  Future<Either<AppError, List<CastEntity>>> getCastDetail(int id);
+  Future<Either<AppError, List<VideoEntity>>> getVideos(int id);
+  Future<Either<AppError, List<MovieEntity>>> getSearch(String searchtxt);
+  //local
+  Future<Either<AppError, void>> saveMovie(MovieEntity movieEntity);
+  Future<Either<AppError, List<MovieEntity>>> getMovies();
+  Future<Either<AppError, void>> deleteMovie(int movieId);
+  Future<Either<AppError, bool>> checkIfFavorite(int movieId);
 }

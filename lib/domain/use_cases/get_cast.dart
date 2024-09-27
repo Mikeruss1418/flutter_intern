@@ -12,6 +12,6 @@ class GetCast extends UseCase<List<CastEntity>, MovieParams> {
   GetCast(this.repos);
   @override
   Future<Either<AppError, List<CastEntity>>> call(MovieParams params) async {
-    return await repos.getcastcrew(params.movieId);
+    return await repos.getCastDetail(params.movieId);
   }
 }

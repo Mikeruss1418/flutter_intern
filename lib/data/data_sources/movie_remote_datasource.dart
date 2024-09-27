@@ -9,14 +9,14 @@ import "dart:developer";
 import '../models/video_result_model.dart';
 
 abstract class MovieRemoteDatasource {
-  Future<List<MoviesModel>> trending();
-  Future<List<MoviesModel>> popular();
-  Future<List<MoviesModel>> nowplaying();
-  Future<List<MoviesModel>> upcoming();
-  Future<List<MoviesModel>> search(String searchitem);
-  Future<MovieDetailModel> moviedetail(int id);
-  Future<List<CastModel>> castdetail(int id);
-  Future<List<VideoModel>> videos(int id);
+  Future<List<MoviesModel>> getTrending();
+  Future<List<MoviesModel>> getPopular();
+  Future<List<MoviesModel>> getNowPlaying();
+  Future<List<MoviesModel>> getUpcoming();
+  Future<List<MoviesModel>> getSearchItem(String searchitem);
+  Future<MovieDetailModel> getMovieDetail(int id);
+  Future<List<CastModel>> getCastDetail(int id);
+  Future<List<VideoModel>> getVideos(int id);
 }
 
 class MovieremoteDatasourceIml extends MovieRemoteDatasource {
@@ -25,7 +25,7 @@ class MovieremoteDatasourceIml extends MovieRemoteDatasource {
   MovieremoteDatasourceIml(this._client);
 
   @override
-  Future<List<MoviesModel>> trending() async {
+  Future<List<MoviesModel>> getTrending() async {
     final response = await _client.get('trending/movie/day');
     final movies = MoviesresultModel.fromJson(response).movies;
     log('$movies');
@@ -33,7 +33,7 @@ class MovieremoteDatasourceIml extends MovieRemoteDatasource {
   }
 
   @override
-  Future<List<MoviesModel>> popular() async {
+  Future<List<MoviesModel>> getPopular() async {
     final response = await _client.get('movie/popular');
     final movies = MoviesresultModel.fromJson(response).movies;
     log('$movies');
@@ -41,7 +41,7 @@ class MovieremoteDatasourceIml extends MovieRemoteDatasource {
   }
 
   @override
-  Future<List<MoviesModel>> nowplaying() async {
+  Future<List<MoviesModel>> getNowPlaying() async {
     final response = await _client.get('movie/now_playing');
     final movies = MoviesresultModel.fromJson(response).movies;
     log('$movies');
@@ -49,7 +49,7 @@ class MovieremoteDatasourceIml extends MovieRemoteDatasource {
   }
 
   @override
-  Future<List<MoviesModel>> upcoming() async {
+  Future<List<MoviesModel>> getUpcoming() async {
     final response = await _client.get('movie/upcoming');
     final movies = MoviesresultModel.fromJson(response).movies;
     log('$movies');
@@ -57,7 +57,7 @@ class MovieremoteDatasourceIml extends MovieRemoteDatasource {
   }
 
   @override
-  Future<MovieDetailModel> moviedetail(int id) async {
+  Future<MovieDetailModel> getMovieDetail(int id) async {
     final response = await _client.get('movie/$id');
     final movie = MovieDetailModel.fromJson(response);
     log('$movie');
@@ -65,7 +65,7 @@ class MovieremoteDatasourceIml extends MovieRemoteDatasource {
   }
 
   @override
-  Future<List<CastModel>> castdetail(int id) async {
+  Future<List<CastModel>> getCastDetail(int id) async {
     final response = await _client.get('movie/$id/credits');
     final cast = CastCrewResultModel.fromJson(response).cast;
     log('$cast');
@@ -73,7 +73,7 @@ class MovieremoteDatasourceIml extends MovieRemoteDatasource {
   }
 
   @override
-  Future<List<VideoModel>> videos(int id) async {
+  Future<List<VideoModel>> getVideos(int id) async {
     final response = await _client.get('movie/$id/videos');
     final videos = VideoResultModel.fromJson(response).videos;
     log('$videos');
@@ -81,11 +81,12 @@ class MovieremoteDatasourceIml extends MovieRemoteDatasource {
   }
 
   @override
-  Future<List<MoviesModel>> search(String searchitem) async {
+  Future<List<MoviesModel>> getSearchItem(String searchitem) async {
     final response =
         await _client.get('search/movie', params: {'query': searchitem});
     final movies = MoviesresultModel.fromJson(response).movies;
     log('$movies');
     return movies!;
   }
+ 
 }

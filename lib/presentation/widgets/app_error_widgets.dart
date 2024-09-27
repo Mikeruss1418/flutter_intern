@@ -23,6 +23,8 @@ class ApperrorWidgets extends StatelessWidget {
         Text(
           appErrorType == AppErrorType.apicall
               ? Translation.somethingWentWrong.t(context)
+              : appErrorType == AppErrorType.database 
+              ? Translation.sessionDenied.t(context)
               : Translation.checkNetwork.t(context),
           textAlign: TextAlign.center,
         ),
