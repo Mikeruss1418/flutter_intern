@@ -1,9 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/common/constants/translation.dart';
 import 'package:movie_app/common/extensions/size_extension.dart';
 import 'package:movie_app/common/extensions/string_extension.dart';
 import 'package:movie_app/presentation/blocs/search/search_bloc.dart';
+import 'package:movie_app/presentation/journeys/home/movie_tab/movie_tab_card.dart';
+import 'package:movie_app/presentation/journeys/movie_detail/movie_detail_args.dart';
+import 'package:movie_app/presentation/journeys/movie_detail/movie_detail_screen.dart';
 import 'package:movie_app/presentation/themes/app_colors.dart';
 import 'package:movie_app/presentation/themes/theme_text.dart';
 import 'package:movie_app/presentation/widgets/app_error_widgets.dart';
@@ -45,9 +51,9 @@ class CustomSearchDelegate extends SearchDelegate {
         close(context, null);
       },
       child: Icon(
-        Icons.arrow_back_ios,
+        Icons.arrow_back,
         color: Colors.white,
-        size: Sizes.dimen_12.h,
+        size: Sizes.dimen_18.h,
       ),
     );
   }
@@ -80,12 +86,32 @@ class CustomSearchDelegate extends SearchDelegate {
               ),
             );
           }
-          return ListView.builder(
-            itemBuilder: (context, index) => SearchMovieCard(
-              movie: movies[index],
-            ),
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisExtent: 250.h,
+                crossAxisSpacing: 25.w,
+                mainAxisSpacing: 25.h),
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => MovieDetailScrren(
+                        movieDetailArgs: MovieDetailArgs(movies[index].id)),
+                  ));
+                  log('movieId: ${movies[index].id}/n MovieTitle: ${movies[index].title}');
+                },
+                child: MovieTabCard(
+                    movieId: movies[index].id,
+                    title: movies[index].title,
+                    posterpath: movies[index].posterpath),
+              );
+            },
+            // SearchMovieCard(
+            //   movie: movies[index],
+            // ),
             itemCount: movies.length,
-            scrollDirection: Axis.vertical,
+            // scrollDirection: Axis.horizontal,
           );
         } else {
           return const SizedBox.shrink();
@@ -96,6 +122,6 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return SizedBox.shrink();
+    return const SizedBox.shrink();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/common/extensions/size_extension.dart';
 import 'package:movie_app/presentation/journeys/movie_detail/movie_detail_args.dart';
 import 'package:movie_app/presentation/journeys/movie_detail/movie_detail_screen.dart';
@@ -53,13 +54,14 @@ class SearchMovieCard extends StatelessWidget {
                 children: [
                   Text(
                     movie.title,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
-                  Text(
-                    movie.overview!,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    // style: Theme.of(context).textTheme.greyCaption,
+                  Padding(
+                    padding: EdgeInsets.all(10.r),
+                    child: Text(movie.overview!,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 15.sp)),
                   ),
                 ],
               ),
