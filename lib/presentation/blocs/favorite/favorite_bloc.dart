@@ -47,6 +47,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
 
   Future<void> toggleFavoriteEvent(
       ToggleFavoriteEvent event, Emitter<FavoriteState> emit) async {
+    // emit(state.copyWith(status: FavoriteStatus.isFavorite,isFavorite: !event.isFavorite));
     if (event.isFavorite) {
       await deleteMovie(MovieParams(event.movieEntity.id));
     } else {
@@ -62,6 +63,8 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       },
     );
   }
+
+  //
 
   Future<void> deleteFavoriteEvent(
       DeleteFavoriteEvent event, Emitter<FavoriteState> emit) async {

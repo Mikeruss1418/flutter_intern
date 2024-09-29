@@ -37,6 +37,8 @@ import 'package:movie_app/presentation/blocs/movie_detail/movie_detail_bloc.dart
 import 'package:movie_app/presentation/blocs/movie_tab/movie_tab_bloc.dart';
 import 'package:movie_app/presentation/blocs/video/video_bloc.dart';
 
+import 'presentation/blocs/favorite/favorite_bloc.dart';
+
 class MyBlocObserver extends BlocObserver {
   @override
   void onTransition(Bloc bloc, Transition transition) {
@@ -73,31 +75,31 @@ class MyBlocObserver extends BlocObserver {
     if (bloc is MovieBackdropBloc) {
       final currentstate = bloc.state;
       switch (currentstate.status) {
-        case  MovieBackdropStatus.inital:
+        case MovieBackdropStatus.inital:
           log('MovieBackDropBloc: Initial State');
           break;
-        case  MovieBackdropStatus.success:
+        case MovieBackdropStatus.success:
           log('MovieBackDropBloc: Success State');
           break;
-        case  MovieBackdropStatus.fail:
+        case MovieBackdropStatus.fail:
           log('MovieBackDropBloc: Fail State');
           break;
         default:
       }
     }
-    if(bloc is MovieDetailBloc) {
+    if (bloc is MovieDetailBloc) {
       final currentstate = bloc.state;
       switch (currentstate.status) {
-        case  MovieDetailStatus.success:
+        case MovieDetailStatus.success:
           log('MovieBackDropBloc: Success State');
           break;
-        case  MovieDetailStatus.fail:
+        case MovieDetailStatus.fail:
           log('MovieBackDropBloc: Fail State');
           break;
         default:
       }
     }
-    if(bloc is CastBloc) {
+    if (bloc is CastBloc) {
       final currentstate = bloc.state;
       switch (currentstate.status) {
         case CastStatus.initial:
@@ -112,7 +114,7 @@ class MyBlocObserver extends BlocObserver {
         default:
       }
     }
-    if(bloc is LanguageBloc) {
+    if (bloc is LanguageBloc) {
       final currentstate = bloc.state;
       switch (currentstate.status) {
         case LanguageStatus.initial:
@@ -124,7 +126,7 @@ class MyBlocObserver extends BlocObserver {
         default:
       }
     }
-    if(bloc is VideoBloc) {
+    if (bloc is VideoBloc) {
       final currentstate = bloc.state;
       switch (currentstate.status) {
         case VideoStatus.initial:
@@ -135,6 +137,24 @@ class MyBlocObserver extends BlocObserver {
           break;
         case VideoStatus.fail:
           log('VideoBloc: Fail State');
+          break;
+        default:
+      }
+    }
+    if (bloc is FavoriteBloc) {
+      final currentstate = bloc.state;
+      switch (currentstate.status) {
+        case FavoriteStatus.initial:
+          log('FavoriteBloc: Initial State');
+          break;
+        case FavoriteStatus.loaded:
+          log('FavoriteBloc: Success State');
+          break;
+        case FavoriteStatus.fail:
+          log('FavoriteBloc: Fail State');
+          break;
+        case FavoriteStatus.isFavorite:
+          log('FavoriteBloc: isFavorite State');
           break;
         default:
       }

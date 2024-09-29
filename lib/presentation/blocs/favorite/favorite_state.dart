@@ -23,5 +23,5 @@ class FavoriteState extends Equatable {
           errorType: errorType ?? this.errorType
           );
   @override
-  List<Object> get props => [];
+  List<Object> get props => [status, movies ?? '',isFavorite ?? '',errorType ?? ''];
 }

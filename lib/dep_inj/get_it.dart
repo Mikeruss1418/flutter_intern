@@ -85,7 +85,9 @@ void setupGetIt() {
   );
   getit.registerFactory<MovieDetailBloc>(
     () => MovieDetailBloc(
-        movieDetails: getit(), castBloc: getit(), videoBloc: getit()),
+        movieDetails: getit(), castBloc: getit(), videoBloc: getit(),
+        favoriteBloc: getit(),
+        ),
   );
   getit.registerFactory<CastBloc>(
     () => CastBloc(getcrew: getit()),

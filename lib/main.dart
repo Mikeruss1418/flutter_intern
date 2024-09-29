@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:movie_app/bloc_observer.dart';
+import 'package:movie_app/data/tables/movie_table.dart';
 import 'package:movie_app/dep_inj/get_it.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
@@ -13,6 +14,7 @@ Future<void> main() async {
   setupGetIt();
   final appDocsDir = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocsDir.path);
+  Hive.registerAdapter(MovieTableAdapter());
   // GetTrend getTrend = getit<GetTrend>();
   // final Either<AppError, List<MovieEntity>> eitherresponse =
   //     await getTrend(NoParams());
