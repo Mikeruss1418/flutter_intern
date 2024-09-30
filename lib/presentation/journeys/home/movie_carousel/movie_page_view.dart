@@ -38,7 +38,7 @@ class _MoviePageViewState extends State<MoviePageView> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: (Sizes.dimen_10.h)),
-      height: MediaQuery.of(context).size.height * 0.42,
+      height: MediaQuery.sizeOf(context).height * 0.42,
       child: PageView.builder(
         controller: _pageController,
         // scrollDirection: Axis.vertical,

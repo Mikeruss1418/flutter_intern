@@ -38,7 +38,7 @@ class MovieBackdrop extends StatelessWidget {
             ),
             BackdropFilter(filter: ImageFilter.blur(sigmaX: 5,sigmaY: 5),
             child: Container(
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery.sizeOf(context).width,
               height: 1,
               color: Colors.transparent,
             ),

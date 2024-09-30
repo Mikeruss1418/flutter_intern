@@ -28,7 +28,8 @@ class AnimatedMovieCard extends StatelessWidget {
             alignment: Alignment.topCenter,
             child: SizedBox(
               height: Curves.easeIn.transform(value) *
-                  MediaQuery.of(context).size.height *
+                  // MediaQuery.of(context).size.height *
+                  MediaQuery.sizeOf(context).height *
                   0.40,
               width: Sizes.dimen_230.w,
               child: child,
@@ -39,7 +40,7 @@ class AnimatedMovieCard extends StatelessWidget {
             alignment: Alignment.topCenter,
             child: SizedBox(
               height: Curves.easeIn.transform(index == 0 ? value : value * .5) *
-                  MediaQuery.of(context).size.height *
+                  MediaQuery.sizeOf(context).height *
                   0.45,
               width: Sizes.dimen_230.w,
               child: child,

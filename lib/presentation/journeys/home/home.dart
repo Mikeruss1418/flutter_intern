@@ -47,56 +47,59 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<MovieCarouselBloc>(
-          create: (context) => movieCarouselBloc,
-        ),
-        BlocProvider<MovieBackdropBloc>(
-          create: (context) => movieBackdropBloc,
-        ),
-        BlocProvider<MovieTabBloc>(
-          create: (context) => movieTabBloc,
-        ),
-        BlocProvider(
-          create: (context) => searchBloc,
-        ),
-      ],
-      child: Scaffold(
-        drawer: const NavDrawer(),
-        body: BlocBuilder<MovieCarouselBloc, MovieCarouselState>(
-          bloc: movieCarouselBloc,
-          builder: (context, state) {
-            if (state.status == CarouselStatus.success) {
-              return SafeArea(
-                child: Stack(
-                  fit: StackFit.expand, //allows to all availabel space
-                  children: [
-                    FractionallySizedBox(
-                        heightFactor: .6,
-                        alignment: Alignment.topCenter,
-                        child: MovieCarouselWidget(
-                            movies: state.movies!,
-                            defaultIndex: state.defaultindex!)),
-                    const FractionallySizedBox(
-                        heightFactor: .4,
-                        alignment: Alignment.bottomCenter,
-                        child: MovieTab())
-                  ],
-                ),
-              );
-            } else if (state.status == CarouselStatus.error) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ApperrorWidgets(
-                  onPressed: () =>
-                      movieCarouselBloc.add(const CarouselLoadEvent()),
-                  appErrorType: state.errorType!,
-                ),
-              );
-            }
-            return const SizedBox();
-          },
+    return SafeArea(
+      
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<MovieCarouselBloc>(
+            create: (context) => movieCarouselBloc,
+          ),
+          BlocProvider<MovieBackdropBloc>(
+            create: (context) => movieBackdropBloc,
+          ),
+          BlocProvider<MovieTabBloc>(
+            create: (context) => movieTabBloc,
+          ),
+          BlocProvider(
+            create: (context) => searchBloc,
+          ),
+        ],
+        child: Scaffold(
+          drawer: const NavDrawer(),
+          body: BlocBuilder<MovieCarouselBloc, MovieCarouselState>(
+            bloc: movieCarouselBloc,
+            builder: (context, state) {
+              if (state.status == CarouselStatus.success) {
+                return SafeArea(
+                  child: Stack(
+                    fit: StackFit.expand, //allows to all availabel space
+                    children: [
+                      FractionallySizedBox(
+                          heightFactor: .6,
+                          alignment: Alignment.topCenter,
+                          child: MovieCarouselWidget(
+                              movies: state.movies!,
+                              defaultIndex: state.defaultindex!)),
+                      const FractionallySizedBox(
+                          heightFactor: .4,
+                          alignment: Alignment.bottomCenter,
+                          child: MovieTab())
+                    ],
+                  ),
+                );
+              } else if (state.status == CarouselStatus.error) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ApperrorWidgets(
+                    onPressed: () =>
+                        movieCarouselBloc.add(const CarouselLoadEvent()),
+                    appErrorType: state.errorType!,
+                  ),
+                );
+              }
+              return const SizedBox();
+            },
+          ),
         ),
       ),
     );
