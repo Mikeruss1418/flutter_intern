@@ -3,6 +3,7 @@ part of 'language_bloc.dart';
 enum LanguageStatus {
   initial,
   toggled,
+  error,
 }
 
 class LanguageState extends Equatable {

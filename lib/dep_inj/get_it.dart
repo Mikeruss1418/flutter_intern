@@ -1,9 +1,12 @@
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 import 'package:movie_app/data/core/apiclient.dart';
+import 'package:movie_app/data/data_sources/language_local_data_source.dart';
 import 'package:movie_app/data/data_sources/movie_local_data_source.dart';
 import 'package:movie_app/data/data_sources/movie_remote_datasource.dart';
+import 'package:movie_app/data/repos/app_repos_iml.dart';
 import 'package:movie_app/data/repos/movie_repos_iml.dart';
+import 'package:movie_app/domain/repos/app_repos.dart';
 import 'package:movie_app/domain/repos/movie_repos.dart';
 import 'package:movie_app/domain/use_cases/check_if_added.dart';
 import 'package:movie_app/domain/use_cases/delete_movie.dart';
@@ -16,7 +19,9 @@ import 'package:movie_app/domain/use_cases/get_popular.dart';
 import 'package:movie_app/domain/use_cases/get_trend.dart';
 import 'package:movie_app/domain/use_cases/get_upcoming.dart';
 import 'package:movie_app/domain/use_cases/get_videos.dart';
+import 'package:movie_app/domain/use_cases/preferred_lang.dart';
 import 'package:movie_app/domain/use_cases/save_movie.dart';
+import 'package:movie_app/domain/use_cases/update_language.dart';
 import 'package:movie_app/presentation/blocs/cast/cast_bloc.dart';
 import 'package:movie_app/presentation/blocs/favorite/favorite_bloc.dart';
 import 'package:movie_app/presentation/blocs/language/language_bloc.dart';
@@ -32,13 +37,21 @@ final getit = GetIt.instance;
 void setupGetIt() {
   getit.registerLazySingleton<Client>(() => Client());
   getit.registerLazySingleton<Apiclient>(() => Apiclient(getit()));
+  //data - source
   getit.registerLazySingleton<MovieRemoteDatasource>(
       () => MovieremoteDatasourceIml(getit()));
   getit.registerLazySingleton<MovieLocalDataSource>(
     () => MovieLocalDataSourceIml(),
   );
+  getit.registerLazySingleton<LanguageLocalDataSource>(
+    () => LanguageLocalDataSourceIml(),
+  );
+  //domain repos
   getit
       .registerLazySingleton<MovieRepos>(() => MovieReposIml(getit(), getit()));
+  getit.registerLazySingleton<AppRepos>(
+    () => AppReposIml(getit()),
+  );
 
   //usecases
   getit.registerLazySingleton<GetTrend>(() => GetTrend(getit()));
@@ -69,6 +82,12 @@ void setupGetIt() {
   getit.registerLazySingleton<CheckIfAdded>(
     () => CheckIfAdded(getit()),
   );
+  getit.registerLazySingleton(
+    () => PreferredLang(getit()),
+  );
+  getit.registerLazySingleton<UpdateLanguage>(
+    () => UpdateLanguage(getit()),
+  );
 
   //blocs
   getit.registerFactory<MovieCarouselBloc>(() => MovieCarouselBloc(
@@ -81,13 +100,15 @@ void setupGetIt() {
         getNowPlay: getit(), getPopular: getit(), getUpcoming: getit()),
   );
   getit.registerFactory<LanguageBloc>(
-    () => LanguageBloc(),
+    () => LanguageBloc(preferredLang: getit(),updateLanguage: getit()),
   );
   getit.registerFactory<MovieDetailBloc>(
     () => MovieDetailBloc(
-        movieDetails: getit(), castBloc: getit(), videoBloc: getit(),
-        favoriteBloc: getit(),
-        ),
+      movieDetails: getit(),
+      castBloc: getit(),
+      videoBloc: getit(),
+      favoriteBloc: getit(),
+    ),
   );
   getit.registerFactory<CastBloc>(
     () => CastBloc(getcrew: getit()),
@@ -101,10 +122,9 @@ void setupGetIt() {
   );
   getit.registerFactory<FavoriteBloc>(
     () => FavoriteBloc(
-      checkIfAdded: getit(),
-      deleteMovie: getit(),
-      getMovies: getit(),
-      saveMovie: getit()
-    ),
+        checkIfAdded: getit(),
+        deleteMovie: getit(),
+        getMovies: getit(),
+        saveMovie: getit()),
   );
 }

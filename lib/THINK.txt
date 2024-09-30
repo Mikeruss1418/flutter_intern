@@ -1,3 +1,5 @@
 ***FORGOT TO MENTION ARGUMENTS IN THE EQUATABLE COMPONENT
     the ui didn't update as to suppose to be?
     favorite icon didn't toggle, needed to revisit the page
+
+***ADD DATA SOURCE 

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/common/extensions/size_extension.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/common/extensions/string_extension.dart';
+import 'package:movie_app/presentation/journeys/favorite/favorite_screen.dart';
 import 'package:wiredash/wiredash.dart';
 
 import '../../../common/constants/language.dart';
@@ -44,7 +45,14 @@ class NavDrawer extends StatelessWidget {
             child: Logo(height: Sizes.dimen_110.h),
           ),
           NavigationListitem(
-              title: (Translation.favoriteMovies).t(context), onPressed: () {}),
+              title: (Translation.favoriteMovies).t(context),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const FavoriteScreen(),
+                    ));
+              }),
           NavigationExpanded(
               // title: (Translation.language).t(context),
               title: 'Languages',

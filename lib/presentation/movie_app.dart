@@ -27,6 +27,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     languageBloc = getit<LanguageBloc>();
+    languageBloc.add(LoadPreferredLanguageEvent());
   }
 
   @override
