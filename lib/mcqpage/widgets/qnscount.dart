@@ -8,11 +8,13 @@ class Qnscount extends StatelessWidget {
   const Qnscount({
     super.key,
     required this.selectedanswer,
+    required this.currentscroll,
     required this.widget,
     required this.autoscroll,
   });
 
   final Map<int, String> selectedanswer;
+  final ValueNotifier<int> currentscroll;
   final Mcqpage widget;
   final ItemScrollController autoscroll;
 
@@ -54,12 +56,17 @@ class Qnscount extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.r),
               border: Border.all(
-                  width: 2.w,
-                  color: const Color.fromARGB(255, 200, 199, 199))),
+                  width: 2.w, color: const Color.fromARGB(255, 200, 199, 199))),
           child: Center(
-            child: Text(
-              '${selectedanswer.length}/ ${widget.randomelements.length}',
-              style: TextStyle(color: Colors.black, fontSize: 15.sp),
+            child: ValueListenableBuilder(
+              valueListenable: currentscroll,
+              builder: (context,value,child) {
+                return Text(
+                  // '${selectedanswer.length}/ ${widget.randomelements.length}',
+                  '${value+1}/${widget.randomelements.length}',
+                  style: TextStyle(color: Colors.black, fontSize: 15.sp),
+                );
+              }
             ),
           ),
         ),

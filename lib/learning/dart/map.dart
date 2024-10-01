@@ -41,28 +41,31 @@ void main() {
   // print(longest);
 
   //most frequent string
-  var strings = {
-    'a': 'hello',
-    'b': 'world',
-    'c': 'hello',
-    'd': 'dart',
-    'e': 'hello',
-  };
+  // var strings = {
+  //   'a': 'hello',
+  //   'b': 'world',
+  //   'c': 'hello',
+  //   'd': 'dart',
+  //   'e': 'hello',
+  // };
 
-  /// This code snippet is creating a frequency map to count the occurrences of each unique string in the
-  /// `strings` map. Here's a breakdown of what it does:
-  Map<String, int> repeated = <String,
-      int>{}; //to indicate that this string has been called this many times
-  strings.values.forEach(
-    (value) {
-      repeated[value] = (repeated[value] ?? 0) + 1;
-      print('${repeated['hello']}');//getting value from key
-    },
-  );
-  var mostFrequentString =
-      repeated.entries.reduce((a, b) => a.value > b.value ? a : b).key;
+  // /// This code snippet is creating a frequency map to count the occurrences of each unique string in the
+  // /// `strings` map. Here's a breakdown of what it does:
+  // Map<String, int> repeated = <String,
+  //     int>{}; //to indicate that this string has been called this many times
+  // strings.values.forEach(
+  //   (value) {
+  //     repeated[value] = (repeated[value] ?? 0) + 1;
+  //     print('${repeated['hello']}');//getting value from key
+  //   },
+  // );
+  // var mostFrequentString =
+  //     repeated.entries.reduce((a, b) => a.value > b.value ? a : b).key;
 
-  print(mostFrequentString); //
+  // print(mostFrequentString); //
+
+
+  
 }
 /**
  Here's an example of how this works:

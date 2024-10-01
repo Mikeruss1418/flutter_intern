@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,15 +35,16 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
       105); // Initially 1:45 in seconds//did this as it will directlt show 1.45
   // int countdown = 0;
   final ItemScrollController autoscroll = ItemScrollController();
+  ValueNotifier<int> currentscroll = ValueNotifier<int>(0);//for passing the current index for detecting scroll
+  final ItemPositionsListener listener = ItemPositionsListener.create();//listen the positio
   late final AnimationController blinkcontroller;
   bool isTimerRunning = true; //to make page static after timer runs out
   List<int> attmepted = [];
 
 //lazy loading
-  int loadbatch = 20; //each batch size
-  int currentmaxindex = 20; // intial load
+  int loadbatch = 20, currentmaxindex = 20; //each batch size
+  // int currentmaxindex = 20; // intial load
   bool isLoading = false; //checking if the there is loading needed
-
 
   @override
   void initState() {
@@ -52,6 +54,14 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
       vsync: this,
       duration: const Duration(seconds: 1),
     )..repeat(); //repeative blinking
+    listener.itemPositions.addListener(
+      () {
+        final postitions = listener.itemPositions.value;
+        if (postitions.isNotEmpty) {
+          currentscroll.value = postitions.first.index;
+        }
+      },
+    );
   }
 
   void startTimer() {
@@ -69,7 +79,7 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
                 selectedanswer.keys.length,
                 (widget.randomelements.length - selectedanswer.keys.length)) ??
             false;
-            
+
         if (context.mounted && timesup) {
           Navigator.pop(context);
         }
@@ -88,13 +98,14 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
   }
 
   Future<void> loadmore() async {
-    if (!isLoading && currentmaxindex < widget.randomelements.length) {//checkes if the data is already loading or not//if true loading more data
+    if (!isLoading && currentmaxindex < widget.randomelements.length) {
+      //checkes if the data is already loading or not//if true loading more data
       setState(() {
         isLoading = true;
       });
       await Future.delayed(const Duration(seconds: 2));
       setState(() {
-        currentmaxindex += loadbatch;//adds another batch of 20 items
+        currentmaxindex += loadbatch; //adds another batch of 20 items
         if (currentmaxindex > widget.randomelements.length) {
           currentmaxindex = widget.randomelements.length;
         }
@@ -142,8 +153,10 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
                   countdown: countdown,
                   blinkcontroller: blinkcontroller,
                   isBlinking: isBlinking),
+
               Qnscount(
                   selectedanswer: selectedanswer,
+                  currentscroll: currentscroll,
                   widget: widget,
                   autoscroll: autoscroll),
             ],
@@ -157,7 +170,7 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
 
             /// This code snippet is using a `NotificationListener` widget in Flutter to listen for scroll
             /// notifications in a scrollable widget.
-            //This code listens to scroll notifications 
+            //This code listens to scroll notifications
             //and checks if the user has scrolled to
             // the bottom of the scrolling widget.
             // If they have, and the app is
@@ -166,20 +179,26 @@ class _McqpageState extends State<Mcqpage> with TickerProviderStateMixin {
             NotificationListener<ScrollNotification>(
           //listens to notification send by it's child.
           //Scrollnotification is notification sent by the scrolling widget(all scrollable widgets)
-          onNotification: (notification) {//callback fn that is called when scrollnotification is received
+          onNotification: (notification) {
+            //callback fn that is called when scrollnotification is received
             if (notification.metrics.pixels ==
                     notification.metrics.maxScrollExtent &&
-                !isLoading) {//checks if scolling has reached the bottom of the screen(position at it's max. extend) also checks the falg here
+                !isLoading) {
+              //checks if scolling has reached the bottom of the screen(position at it's max. extend) also checks the flag here
+              log('metrics.pixel: ${notification.metrics.pixels}');
+              log('mertics.maxScrollExtend: ${notification.metrics.maxScrollExtent}');
               loadmore();
-              return true;
+              return true; //TO LET IT CONTINUE UP THE WIDGET TREE MAKE IT FALSE;
             }
             return false;
           },
           child: Padding(
             padding: EdgeInsets.all(20.r),
             child: ScrollablePositionedList.builder(
-              minCacheExtent: 20000,
+              // minCacheExtent: 20000,
+              // minCacheExtent: 8900 * 2,
               itemScrollController: autoscroll,
+              itemPositionsListener: listener,
               itemBuilder: (context, index) {
                 final question = widget.randomelements[index];
                 final id = question['id'];

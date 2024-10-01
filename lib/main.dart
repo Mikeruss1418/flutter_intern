@@ -5,6 +5,7 @@ import 'package:mmccqq/blocobserver.dart';
 import 'package:mmccqq/homepage/bloc/home_bloc.dart';
 import 'package:mmccqq/homepage/ui/home.dart';
 import 'package:mmccqq/lazy_load.dart';
+import 'package:mmccqq/learning/notifier.dart';
 import 'package:mmccqq/mcqpage/bloc/mcq_bloc.dart';
 
 void main() {
@@ -27,16 +28,18 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) => HomeBloc(),
           ),
-          BlocProvider(create: (context) => McqBloc(),
+          BlocProvider(
+            create: (context) => McqBloc(),
           ),
         ],
         child: const MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Flutter Demo',
-            home: 
-            // LazyLoadingList()
-            Home(),
-            ),
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          home:
+              // Notifier()
+              // LazyLoadingList()
+              Home(),
+        ),
       ),
     );
   }
