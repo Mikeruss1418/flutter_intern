@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -15,7 +17,7 @@ class MyApp extends StatelessWidget {
     try {
       await platform.invokeMethod('openNativeScreenA',{'msg':'Native Screen 1'});
     } on PlatformException catch (e) {
-      print("Failed to navigate to A: '${e.message}'.");
+      log("Failed to navigate to A: '${e.message}'.");
     }
   }
 
