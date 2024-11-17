@@ -10,14 +10,35 @@
         android:id="@+id/secondText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Native Screen 2"
-        android:textSize="24sp"/>
+        android:textSize="14sp" />
     <TextView
         android:id="@+id/secondText1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Native Screen 2"
-        android:textSize="24sp"/>
+        android:textSize="14sp"/>
+    <TextView
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="text:"
+        android:textSize="14sp"/>
+    <EditText
+        android:id="@+id/editText01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Return Data"
+        android:textSize="14sp"/>
+
+
+
+    <Button
+        android:id="@+id/goBack01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="goback With data"
+        android:textSize="14sp"/>
+
 
 
 </LinearLayout>

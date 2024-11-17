@@ -1,6 +1,9 @@
 package com.example.platform_channel
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -12,6 +15,17 @@ class SecondNativeActivity:AppCompatActivity() {
         showAlertDialog(message)
         val textView = findViewById<TextView>(R.id.secondText)
         textView.text = message+" Rojesh"
+
+        val edittext01 = findViewById<EditText>(R.id.editText01)
+        val goback01 = findViewById<Button>(R.id.goBack01)
+        goback01.setOnClickListener {
+            val textvalue = edittext01.text.toString()
+            val resultIntent = Intent()
+            resultIntent.putExtra("returned_to",textvalue)
+            setResult(RESULT_OK,resultIntent)
+            finish()
+        }
+
 
     }
     private fun showAlertDialog(message: String) {

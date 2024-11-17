@@ -5,15 +5,46 @@
     android:gravity="center"
     android:orientation="vertical">
 
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Welcome to Native Android"
-        android:textSize="24sp" />
+        android:textSize="14sp" />
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25sp"/>
+        android:textSize="14sp"/>
+    <EditText
+
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Send it to SecondNativeActivity"
+        android:textSize="14sp"/>
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/nextScreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2nd Screen(NativeScreen)"/>
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="14sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/comeback"
+        android:text="Data from 2nd screen: "/>
+    <Button
+        android:id="@+id/goBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go Back(Flutter)"
+        />
 </LinearLayout>
